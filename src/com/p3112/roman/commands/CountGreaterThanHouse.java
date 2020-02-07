@@ -4,7 +4,7 @@ package com.p3112.roman.commands;
 public class CountGreaterThanHouse extends AbstractCommand {
     public CountGreaterThanHouse() {
         command = "count_greater_than_house";
-        helpText = "";
+        helpText = "Вывести количество элементов, значение поля house которых больше заданного.";
     }
 
     @Override

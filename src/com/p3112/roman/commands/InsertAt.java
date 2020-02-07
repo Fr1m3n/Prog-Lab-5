@@ -5,7 +5,7 @@ package com.p3112.roman.commands;
 public class InsertAt extends AbstractCommand {
     public InsertAt() {
         command = "insert_at";
-        helpText = "";
+        helpText = "Добавить новый элемент в заданную позицию.";
     }
 
     @Override

@@ -4,7 +4,7 @@ package com.p3112.roman.commands;
 public class AddIfMin extends AbstractCommand {
     public AddIfMin() {
         command = "add_if_min";
-        helpText = "";
+        helpText = "Добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции.";
     }
 
     @Override

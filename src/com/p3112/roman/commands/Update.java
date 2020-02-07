@@ -5,7 +5,7 @@ package com.p3112.roman.commands;
 public class Update extends AbstractCommand {
     public Update() {
         command = "update";
-        helpText = "";
+        helpText = "Обновить значение элемента коллекции, id которого равен заданному.";
     }
 
     @Override

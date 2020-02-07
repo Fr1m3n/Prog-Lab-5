@@ -5,7 +5,7 @@ package com.p3112.roman.commands;
 public class Save extends AbstractCommand {
     public Save() {
         command = "save";
-        helpText = "";
+        helpText = "Сохранить коллекцию в файл.";
     }
 
     @Override

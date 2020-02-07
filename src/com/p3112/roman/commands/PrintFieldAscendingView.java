@@ -5,7 +5,7 @@ package com.p3112.roman.commands;
 public class PrintFieldAscendingView extends AbstractCommand {
     public PrintFieldAscendingView() {
         command = "print_field_ascending_view";
-        helpText = "";
+        helpText = "Вывести значения поля view в порядке возрастания.";
     }
 
     @Override

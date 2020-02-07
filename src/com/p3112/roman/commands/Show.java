@@ -5,7 +5,7 @@ package com.p3112.roman.commands;
 public class Show extends AbstractCommand {
     public Show() {
         command = "show";
-        helpText = "";
+        helpText = "Вывести в стандартный поток вывода все элементы коллекции в строковом представлении.";
     }
 
     @Override

@@ -4,7 +4,7 @@ package com.p3112.roman.commands;
 public class Clear extends AbstractCommand {
     public Clear() {
         command = "clear";
-        helpText = "";
+        helpText = "Очистить коллекцию.";
     }
 
     @Override

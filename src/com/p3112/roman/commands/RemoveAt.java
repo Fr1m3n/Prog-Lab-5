@@ -5,7 +5,7 @@ package com.p3112.roman.commands;
 public class RemoveAt extends AbstractCommand {
     public RemoveAt() {
         command = "remove_at";
-        helpText = "";
+        helpText = "Удалить элемент, находящийся в заданной позиции коллекции (index).";
     }
 
     @Override

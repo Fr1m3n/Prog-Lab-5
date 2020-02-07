@@ -4,7 +4,7 @@ package com.p3112.roman.commands;
 public class FilterLessThanNumberOfRooms extends AbstractCommand {
     public FilterLessThanNumberOfRooms() {
         command = "filter_less_than_number_of_rooms";
-        helpText = "";
+        helpText = "Вывести элементы, значение поля numberOfRooms которых меньше заданного.";
     }
 
     @Override

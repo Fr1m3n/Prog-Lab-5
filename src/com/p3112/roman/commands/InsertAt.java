@@ -3,6 +3,11 @@ package com.p3112.roman.commands;
 
 
 public class InsertAt extends AbstractCommand {
+    public InsertAt() {
+        command = "insert_at";
+        helpText = "";
+    }
+
     @Override
     public void execute(String[] args) {
 

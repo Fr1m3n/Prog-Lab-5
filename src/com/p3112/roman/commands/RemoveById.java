@@ -3,6 +3,11 @@ package com.p3112.roman.commands;
 
 
 public class RemoveById extends AbstractCommand {
+    public RemoveById() {
+        command = "remove_by_id";
+        helpText = "";
+    }
+
     @Override
     public void execute(String[] args) {
 

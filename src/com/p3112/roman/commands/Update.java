@@ -3,6 +3,11 @@ package com.p3112.roman.commands;
 
 
 public class Update extends AbstractCommand {
+    public Update() {
+        command = "update";
+        helpText = "";
+    }
+
     @Override
     public void execute(String[] args) {
 

@@ -3,6 +3,11 @@ package com.p3112.roman.commands;
 
 
 public class RemoveAt extends AbstractCommand {
+    public RemoveAt() {
+        command = "remove_at";
+        helpText = "";
+    }
+
     @Override
     public void execute(String[] args) {
 

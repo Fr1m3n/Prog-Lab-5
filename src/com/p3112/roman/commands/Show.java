@@ -3,6 +3,11 @@ package com.p3112.roman.commands;
 
 
 public class Show extends AbstractCommand {
+    public Show() {
+        command = "show";
+        helpText = "";
+    }
+
     @Override
     public void execute(String[] args) {
 

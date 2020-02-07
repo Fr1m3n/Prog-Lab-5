@@ -5,12 +5,12 @@ package com.p3112.roman;
 import java.util.Date;
 import java.util.Stack;
 
-public class StackStorageImpl implements StackStorage<Flat> {
+public class StorageImpl implements Storage<Flat> {
     private Stack<Flat> flats = new Stack<>();
     private Date creationDate;
     private String storageType = "Stack";
 
-    private StackStorageImpl() {
+    private StorageImpl() {
         creationDate = new Date();
     }
 

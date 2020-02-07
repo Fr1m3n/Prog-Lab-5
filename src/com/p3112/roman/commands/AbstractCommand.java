@@ -3,13 +3,13 @@ package com.p3112.roman.commands;
 
 
 import com.p3112.roman.Flat;
-import com.p3112.roman.StackStorage;
+import com.p3112.roman.Storage;
 
 public abstract class AbstractCommand {
     protected String command;
     protected String helpText;
 
-    public abstract void execute(String[] args);
+    public abstract void execute(Storage<Flat> storage, String[] args);
 
     public String getCommand() {
         return command;

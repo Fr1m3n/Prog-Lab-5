@@ -1,8 +1,8 @@
 package com.p3112.roman.commands;
 // Writed by Roman Devyatilov (Fr1m3n) in 9:06 07.02.2020
 
+import com.p3112.roman.exceptions.NoSuchCommandException;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +45,10 @@ public class CommandsManager {
         commands.put(cmd.getCommand(), cmd);
     }
 
-    public AbstractCommand getCommand(String s) {
-        //throw new RuntimeException("Invalid command: " + s + ". Use command \"help\" to see list of available commands.");
+    public AbstractCommand getCommand(String s) throws NoSuchCommandException {
+        if (!commands.containsKey(s)) {
+            throw new NoSuchCommandException();
+        }
         return commands.getOrDefault(s, null);
     }
 

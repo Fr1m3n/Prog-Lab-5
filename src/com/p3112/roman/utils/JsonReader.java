@@ -3,18 +3,25 @@ package com.p3112.roman.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.p3112.roman.collection.Flat;
+import com.p3112.roman.collection.FlatDTO;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Path;
+import java.io.*;
 
 public class JsonReader {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public Flat readFlatFromFile(String pathToFile) throws IOException {
         return (Flat) objectMapper.readValue(new FileInputStream(pathToFile), Flat.class);
+    }
+
+    public FlatDTO[] readCollectionFromFile(String pathToFile) throws IOException {
+        try {
+            FlatDTO[] flats = objectMapper.readValue(new FileReader(pathToFile), FlatDTO[].class);
+            return flats;
+        } catch (ClassCastException e) {
+            System.out.println("Проблема при касте какая-то хз, сам глянь чё там...");
+            return null;
+        }
     }
 
 }

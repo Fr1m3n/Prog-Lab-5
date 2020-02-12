@@ -16,5 +16,8 @@ public interface Storage<T> {
     List<T> toList();
     Date getInitializationTime();
     Class<?> getCollectionClass();
+    void setCollection(Collection<T> collection);
     long getMaximumId();
+
+//    void loadFromFile();
 }

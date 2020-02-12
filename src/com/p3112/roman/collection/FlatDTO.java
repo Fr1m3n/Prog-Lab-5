@@ -1,16 +1,24 @@
 package com.p3112.roman.collection;
-// Writed by Roman Devyatilov (Fr1m3n) in 9:34 07.02.2020
+// Created by Roman Devyatilov (Fr1m3n) in 17:22 11.02.2020
 
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.NonNull;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Flat implements Comparable {
+@JsonAutoDetect
+public class FlatDTO {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    @NonNull
     private String name; //Поле не может быть null, Строка не может быть пустой
+    @NonNull
+    @JsonDeserialize(as = Coordinates.class)
     private Coordinates coordinates; //Поле не может быть null
     private java.time.ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private long area; //Значение поля должно быть больше 0
@@ -18,52 +26,23 @@ public class Flat implements Comparable {
     private Long livingSpace; //Значение поля должно быть больше 0
     private boolean new1;
     private View view; //Поле может быть null
+    @JsonDeserialize(as = House.class)
     private House house; //Поле может быть null
 
-    public Flat(String name, Coordinates coordinates, long area, long numberOfRooms, Long livingSpace, boolean new1, View view, House house) {
-//        this.id = id;
-        this.name = name;
-        assert !name.isEmpty();
-        this.coordinates = coordinates;
-        this.creationDate = ZonedDateTime.now();
-        this.area = area;
-        assert area > 0;
-        this.numberOfRooms = numberOfRooms;
-        assert numberOfRooms > 0 && numberOfRooms <= 18;
-        this.livingSpace = livingSpace;
-        assert livingSpace > 0;
-        this.new1 = new1;
-        this.view = view;
-        this.house = house;
+    public FlatDTO() {
     }
 
-    @JsonCreator
-    public Flat(long id,
-                String name,
-                Coordinates coordinates,
-                ZonedDateTime creationDate,
-                long area,
-                long numberOfRooms,
-                Long livingSpace,
-                boolean new1,
-                View view,
-                House house) {
-        this.id = id;
-        this.name = name;
-        this.coordinates = coordinates;
-        this.creationDate = creationDate;
-        this.area = area;
-        this.numberOfRooms = numberOfRooms;
-        this.livingSpace = livingSpace;
-        this.new1 = new1;
-        this.view = view;
-        this.house = house;
-    }
-
-
-
-    public Flat() {
-
+    public FlatDTO(Flat flat) {
+        id = flat.getId();
+        name = flat.getName();
+        coordinates = flat.getCoordinates();
+        creationDate = ZonedDateTime.parse(flat.getCreationDate());
+        area = flat.getArea();
+        numberOfRooms = flat.getNumberOfRooms();
+        livingSpace = flat.getLivingSpace();
+        new1 = flat.isNew1();
+        view = flat.getView();
+        house = flat.getHouse();
     }
 
     public long getId() {
@@ -142,30 +121,22 @@ public class Flat implements Comparable {
         return house;
     }
 
-    @Override
-    public String toString() {
-        return "Flat{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", creationDate=" + creationDate +
-                ", area=" + area +
-                ", numberOfRooms=" + numberOfRooms +
-                ", livingSpace=" + livingSpace +
-                ", new1=" + new1 +
-                ", view=" + view +
-                ", house=" + house +
-                '}';
-    }
-
     public void setHouse(House house) {
         this.house = house;
     }
 
-
-    @Override
-    public int compareTo(Object o) {
-        return 0;
+    @JsonIgnore
+    public Flat toFlat() {
+        Flat flat = new Flat(
+                name,
+                coordinates,
+                area,
+                numberOfRooms,
+                livingSpace,
+                new1,
+                view,
+                house
+        );
+        return flat;
     }
-
 }

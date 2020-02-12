@@ -7,14 +7,15 @@ import lombok.NonNull;
 
 @JsonAutoDetect
 public class Coordinates {
-    @NonNull
     private Float x; //Поле не может быть null
-    @NonNull
     private Long y; //Поле не может быть null
 
-    public Coordinates(@NonNull Float x, @NonNull Long y) {
+    public Coordinates(Float x, Long y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Coordinates() {
     }
 
     @Override
@@ -29,7 +30,7 @@ public class Coordinates {
         return x;
     }
 
-    public void setX(Float x) {
+    public void setX(@NonNull Float x) {
         this.x = x;
     }
 
@@ -37,7 +38,7 @@ public class Coordinates {
         return y;
     }
 
-    public void setY(Long y) {
+    public void setY(@NonNull Long y) {
         this.y = y;
     }
 }

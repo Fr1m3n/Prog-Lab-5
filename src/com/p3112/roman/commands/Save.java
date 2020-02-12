@@ -4,11 +4,12 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.Storage;
+import com.p3112.roman.collection.FlatDTO;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.utils.JsonWriter;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class Save extends AbstractCommand {
     private static final String PATH = "E:\\JavaProjects\\Prog-Lab-5\\out.json";
@@ -22,9 +23,12 @@ public class Save extends AbstractCommand {
     @Override
     public void execute(Storage<Flat> storage, StorageService ss, String[] args) {
         try {
-            jsonWriter.writeCollectionToFile((List<Flat>) storage.toList(), PATH);
+            FlatDTO[] flats = new FlatDTO[storage.size()];
+            storage.toList().stream().map(FlatDTO::new).collect(Collectors.toList()).toArray(flats);
+            jsonWriter.writeCollectionToFile(flats, PATH);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Сохранено успешно.");
     }
 }

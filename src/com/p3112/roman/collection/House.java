@@ -3,13 +3,14 @@ package com.p3112.roman.collection;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.NonNull;
 
 @JsonAutoDetect
+@JsonRootName("house")
 public class House {
     private String name; //Поле может быть null
     private int year; //Значение поля должно быть больше 0
-    @NonNull
     private Long numberOfFloors; //Поле не может быть null, Значение поля должно быть больше 0
 
     public House(String name, int year, Long numberOfFloors) {
@@ -18,6 +19,9 @@ public class House {
         assert year > 0;
         this.numberOfFloors = numberOfFloors;
         assert numberOfFloors > 0;
+    }
+
+    public House() {
     }
 
     @Override
@@ -41,7 +45,7 @@ public class House {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(@NonNull int year) {
         this.year = year;
     }
 
@@ -49,7 +53,7 @@ public class House {
         return numberOfFloors;
     }
 
-    public void setNumberOfFloors(Long numberOfFloors) {
+    public void setNumberOfFloors(@NonNull Long numberOfFloors) {
         this.numberOfFloors = numberOfFloors;
     }
 }

@@ -1,0 +1,22 @@
+
+[
+    {
+      "id": 0,
+      "name": "1",
+      "coordinates": {
+        "x": 1.0,
+        "y": 1
+      },
+      "creationDate": "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
+      "area": 1,
+      "numberOfRooms": 1,
+      "livingSpace": 1,
+      "view": "YARD",
+      "house": {
+        "name": "1",
+        "year": 1,
+        "numberOfFloors": 1
+      },
+      "new1": true
+    }
+]

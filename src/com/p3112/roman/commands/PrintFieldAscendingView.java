@@ -5,6 +5,7 @@ package com.p3112.roman.commands;
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.Storage;
 import com.p3112.roman.collection.StorageService;
+import com.p3112.roman.collection.View;
 
 public class PrintFieldAscendingView extends AbstractCommand {
     public PrintFieldAscendingView() {
@@ -14,6 +15,8 @@ public class PrintFieldAscendingView extends AbstractCommand {
 
     @Override
     public void execute(Storage<Flat> storage, StorageService ss, String[] args) {
-
+        for (View value : View.values()) {
+            System.out.println(value.getRus());
+        }
     }
 }

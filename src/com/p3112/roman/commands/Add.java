@@ -5,7 +5,9 @@ import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.Storage;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.utils.InputUtils;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Add extends AbstractCommand {
 
     public Add() {
@@ -17,6 +19,7 @@ public class Add extends AbstractCommand {
     public void execute(Storage<Flat> storage, StorageService ss, String[] args) {
         Flat flat = InputUtils.readFlatFromConsole();
         ss.add(flat);
+        log.info("Квартира успешно добавлена. Ей присвоен id: {}", flat.getId());
     }
 
 

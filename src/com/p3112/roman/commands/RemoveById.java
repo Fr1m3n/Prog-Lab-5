@@ -27,8 +27,8 @@ public class RemoveById extends AbstractCommand {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Need numerical argument");
         }
-        List<Flat> flats = List.copyOf(storage.toList());
-        flats.stream().filter(x -> x.getId() == id).forEach(storage::remove);
-        System.out.printf("Элемент с id равным %d успешно удалён!", id);
+        List<Flat> flats = storage.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());
+        flats.forEach(storage::remove);
+        System.out.printf("Элемент с id равным %d успешно удалён!\n", id);
     }
 }

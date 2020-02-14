@@ -21,7 +21,8 @@ public class InputUtils {
 
     /**
      * Метод, запрашивающий ввод из стандартного потока ввода. Перед вводом выводит сообщение в стандартный поток вывода.
-     * @param message Сообщение для пользователя, будет выведено перед вводом
+     *
+     * @param message  Сообщение для пользователя, будет выведено перед вводом
      * @param nullable Флаг. True - если мы допускаем пустой ввод от пользователя. False - если нам надо добиться от него не пустого ввода.
      * @return Введённую строку пользователя, или null если пользователь ввёл пустую строку и флаг nullable равен true
      */
@@ -42,44 +43,62 @@ public class InputUtils {
         String res;
         do {
             res = readWithMessage(message, false);
-        } while (!checkStringLength(Integer.parseInt(res), min, max));
+        } while (!checkStringLength(Double.parseDouble(res), min, max));
         return res;
     }
 
 
     /**
      * Метод, запрашивающий у пользователя ввод всех полей объекта Flat (с соответствующими сообщениями)
+     *
      * @return Экземпляр Flat, созданный на основе введённых пользователем данных.
      */
     public static Flat readFlatFromConsole() {
         boolean flag = false;
         String name = readWithMessage("Введите название квартиры: ", false);
-        Float x = Float.parseFloat(readWithMessage("Введите расположение квартиры по X (вещественное число): ", false));
-        Long y = Long.valueOf(readWithMessage("Теперь расположение по Y (целое число): ", false));
-        Coordinates coordinates = new Coordinates(x, y);
+        Coordinates coordinates = readCoordinatesFromConsole();
         long area = Long.parseLong(readWithMessage("Введите площадь квартиры (целое число): ", 0, -1));
         long numberOfRooms = Long.parseLong(readWithMessage("Введите кол-во комнат в квартире (целое число от 0 до 18): ", 0, 18));
         Long livingSpace = Long.valueOf(readWithMessage("Введите жилую площадь (целое число): ", 0, -1));
-        boolean isNew = Boolean.parseBoolean(readWithMessage("Квартира новая: ", false));
-        View view = View.valueOf(readWithMessage("Какой вид из квартиры (NORMAL, STREET, YARD): ", true));
-        String houseName = readWithMessage("Введите название дома: ", true);
-        int houseYear = Integer.parseInt(readWithMessage("Год построки дома: ", 0, -1));
-        Long houseFloors = Long.parseLong(readWithMessage("Количество этажей в доме: ", 0, -1));
-        House house = new House(houseName, houseYear, houseFloors);
+        boolean isNew = Boolean.parseBoolean(readWithMessage("Квартира новая (да, нет): ", false));
+        View view = View.fromString(readWithMessage("Какой вид из квартиры (обычный, улица, двор): ", true));
+        House house = readHouseFromConsole();
         return new Flat(name, coordinates, area, numberOfRooms, livingSpace, isNew, view, house);
     }
 
+    public static House readHouseFromConsole() {
+        String houseName = readWithMessage("Введите название дома: ", true);
+        int houseYear = Integer.parseInt(readWithMessage("Год построки дома: ", 0, -1));
+        Long houseFloors = Long.parseLong(readWithMessage("Количество этажей в доме: ", 0, -1));
+        return new House(houseName, houseYear, houseFloors);
+    }
+
+    public static Coordinates readCoordinatesFromConsole() {
+        Float x = Float.parseFloat(readWithMessage("Введите расположение квартиры по X (вещественное число): ", false));
+        Long y = Long.valueOf(readWithMessage("Теперь расположение по Y (целое число): ", false));
+        return new Coordinates(x, y);
+    }
+
+    public static boolean parseBoolean(String s) {
+        if ("да".equals(s.toLowerCase())) {
+            return true;
+        } else if ("нет".equals(s.toLowerCase())) {
+            return false;
+        }
+        return false;
+    }
 
     /**
      * Метод, проверяющий число на вхождение в заданный отрезок.
      * Для неопределённой границы (например, нас интересует ТОЛЬКО минимальная граница) следует ввести отрицательное число
-     * @param s  Число для проверки
-     * @param min  Минимальное значение
-     * @param max  Максимальное значение
+     *
+     * @param s   Число для проверки
+     * @param min Минимальное значение
+     * @param max Максимальное значение
      * @return true - если значение числа лежит в отрезке [min, max], иначе false
      */
-    private static boolean checkStringLength(int s, int min, int max) {
-        return  ((min < 0 || s >= min) && (max < 0 || s <= max));
+    private static boolean checkStringLength(double s, int min, int max) {
+        return ((min < 0 || s >= min) && (max < 0 || s <= max));
     }
 
 }

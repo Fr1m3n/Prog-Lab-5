@@ -4,7 +4,9 @@ package com.p3112.roman.commands;
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.Storage;
 import com.p3112.roman.collection.StorageService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AddIfMin extends AbstractCommand {
     public AddIfMin() {
         command = "add_if_min";
@@ -13,6 +15,9 @@ public class AddIfMin extends AbstractCommand {
 
     @Override
     public void execute(Storage<Flat> storage, StorageService ss, String[] args) {
-
+        storage.toList().stream().sorted().findFirst().ifPresent(x -> {
+            ss.add(x);
+            log.info("Элемент {} добавлен успешно", x);
+        });
     }
 }

@@ -70,7 +70,7 @@ public class Flat implements Comparable {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(@NonNull long id) {
         this.id = id;
     }
 
@@ -78,7 +78,7 @@ public class Flat implements Comparable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
@@ -86,7 +86,7 @@ public class Flat implements Comparable {
         return coordinates;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
+    public void setCoordinates(@NonNull Coordinates coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -95,14 +95,18 @@ public class Flat implements Comparable {
     }
 
     public void setCreationDate(String creationDate) {
-        this.creationDate = ZonedDateTime.parse(creationDate);
+        if (creationDate != null) {
+            this.creationDate = ZonedDateTime.parse(creationDate);
+        } else {
+            this.creationDate = ZonedDateTime.now();
+        }
     }
 
     public long getArea() {
         return area;
     }
 
-    public void setArea(long area) {
+    public void setArea(@NonNull long area) {
         this.area = area;
     }
 
@@ -110,7 +114,7 @@ public class Flat implements Comparable {
         return numberOfRooms;
     }
 
-    public void setNumberOfRooms(long numberOfRooms) {
+    public void setNumberOfRooms(@NonNull long numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
     }
 
@@ -118,7 +122,7 @@ public class Flat implements Comparable {
         return livingSpace;
     }
 
-    public void setLivingSpace(Long livingSpace) {
+    public void setLivingSpace(@NonNull Long livingSpace) {
         this.livingSpace = livingSpace;
     }
 
@@ -126,7 +130,7 @@ public class Flat implements Comparable {
         return new1;
     }
 
-    public void setNew1(boolean new1) {
+    public void setNew1(@NonNull boolean new1) {
         this.new1 = new1;
     }
 
@@ -145,16 +149,16 @@ public class Flat implements Comparable {
     @Override
     public String toString() {
         return "Flat{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", creationDate=" + creationDate +
-                ", area=" + area +
-                ", numberOfRooms=" + numberOfRooms +
-                ", livingSpace=" + livingSpace +
-                ", new1=" + new1 +
-                ", view=" + view +
-                ", house=" + house +
+                "\n id=" + id +
+                "\n name='" + name + '\'' +
+                "\n coordinates=" + coordinates +
+                "\n creationDate=" + creationDate +
+                "\n area=" + area +
+                "\n numberOfRooms=" + numberOfRooms +
+                "\n livingSpace=" + livingSpace +
+                "\n new1=" + new1 +
+                "\n view=" + view +
+                "\n house=" + house +
                 '}';
     }
 
@@ -165,7 +169,14 @@ public class Flat implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+        if (o == null) {
+            return -1;
+        }
+        if (!(o instanceof Flat)) {
+            throw new ClassCastException();
+        }
+        Flat fo = (Flat) o;
+        return (int)(this.getArea() - fo.getArea());
     }
 
 }

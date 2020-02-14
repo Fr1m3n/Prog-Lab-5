@@ -5,7 +5,9 @@ package com.p3112.roman.commands;
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.Storage;
 import com.p3112.roman.collection.StorageService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Show extends AbstractCommand {
     public Show() {
         command = "show";

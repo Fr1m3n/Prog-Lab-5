@@ -1,8 +1,11 @@
 package com.p3112.roman.commands;
 // Writed by Roman Devyatilov (Fr1m3n) in 9:06 07.02.2020
 
+import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.NoSuchCommandException;
+import com.p3112.roman.utils.UserInterface;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +55,18 @@ public class CommandsManager {
         return commands.getOrDefault(s, null);
     }
 
+    public void executeCommand(UserInterface userInterface, StorageService storageService, String s) {
+        String[] parsedCommand = parseCommand(s);
+        AbstractCommand command = getCommand(parsedCommand[0]);
+        String[] args = Arrays.copyOfRange(parsedCommand, 1, parsedCommand.length);
+        command.execute(userInterface, storageService, args);
+    }
+
     public List<AbstractCommand> getAllCommands() {
         return commands.keySet().stream().map(x -> (commands.get(x))).collect(Collectors.toList());
+    }
+
+    public String[] parseCommand(String line) {
+        return line.split(" ");
     }
 }

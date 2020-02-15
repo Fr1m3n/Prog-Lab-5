@@ -3,10 +3,9 @@ package com.p3112.roman.commands;
 
 
 import com.p3112.roman.collection.Flat;
-import com.p3112.roman.collection.Storage;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
-import com.p3112.roman.utils.InputUtils;
+import com.p3112.roman.utils.UserInterface;
 
 public class InsertAt extends AbstractCommand {
     public InsertAt() {
@@ -15,7 +14,7 @@ public class InsertAt extends AbstractCommand {
     }
 
     @Override
-    public void execute(Storage<Flat> storage, StorageService ss, String[] args) {
+    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         if (args.length < 1) {
             throw new InvalidInputException("Need argument");
         }
@@ -25,7 +24,7 @@ public class InsertAt extends AbstractCommand {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Need numerical argument");
         }
-        Flat flat = InputUtils.readFlatFromConsole();
-        storage.put(pos, flat);
+        Flat flat = userInterface.readFlat();
+        ss.insertAt(pos, flat);
     }
 }

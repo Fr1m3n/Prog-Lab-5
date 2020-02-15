@@ -3,9 +3,9 @@ package com.p3112.roman.commands;
 
 
 import com.p3112.roman.collection.Flat;
-import com.p3112.roman.collection.Storage;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
+import com.p3112.roman.utils.UserInterface;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ public class RemoveById extends AbstractCommand {
     }
 
     @Override
-    public void execute(Storage<Flat> storage, StorageService ss, String[] args) {
+    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         if (args.length < 1) {
             throw new InvalidInputException("Need argument");
         }
@@ -27,8 +27,13 @@ public class RemoveById extends AbstractCommand {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Need numerical argument");
         }
-        List<Flat> flats = storage.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());
-        flats.forEach(storage::remove);
-        System.out.printf("Элемент с id равным %d успешно удалён!\n", id);
+        ss.removeById(id);
+//        List<Flat> flats = userInterface.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());
+//        if (flats.isEmpty()) {
+//            System.out.printf("Элемент с id равным %d не найден.", id);
+//            return;
+//        }
+//        flats.forEach(ss::remove);
+//        System.out.printf("Элемент с id равным %d успешно удалён!\n", id);
     }
 }

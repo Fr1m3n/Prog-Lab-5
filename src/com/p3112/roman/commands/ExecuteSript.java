@@ -1,14 +1,18 @@
 package com.p3112.roman.commands;
 // Writed by Roman Devyatilov (Fr1m3n) in 9:57 07.02.2020
 
-import com.p3112.roman.collection.Flat;
-import com.p3112.roman.collection.Storage;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
+import com.p3112.roman.utils.UserInterface;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.OutputStreamWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class ExecuteSript extends AbstractCommand {
     public ExecuteSript() {
         command = "execute_script";
@@ -16,20 +20,20 @@ public class ExecuteSript extends AbstractCommand {
     }
 
     @Override
-    public void execute(Storage<Flat> storage, StorageService ss, String[] args) {
+    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         if (args.length < 1) {
             throw new InvalidInputException("Need argument");
         }
-        String script_path;
-        try {
-            script_path = args[0];
-        } catch (NumberFormatException e) {
-            throw new InvalidInputException("Need numerical argument");
-        }
+        String script_path = args[0];
         Path pathToScript = Paths.get(script_path);
-        if (!pathToScript.toFile().isFile()) {
-            throw new InvalidInputException("File is not exist");
+        try {
+            UserInterface fileInterface = new UserInterface(new FileReader(pathToScript.toFile()), new OutputStreamWriter(System.out), false);
+            while (fileInterface.hasNextLine()) {
+                String line = fileInterface.read();
+                CommandsManager.getInstance().executeCommand(fileInterface, ss, line);
+            }
+        } catch (FileNotFoundException e) {
+            log.error("File is not exist");
         }
-
     }
 }

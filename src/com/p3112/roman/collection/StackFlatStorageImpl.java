@@ -2,18 +2,11 @@ package com.p3112.roman.collection;
 // Writed by Roman Devyatilov (Fr1m3n) in 9:14 07.02.2020
 
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class StackFlatStorageImpl implements Storage<Flat> {
-
     private Stack<Flat> flats = new Stack<>();
-    @JsonIgnore
     private Date creationDate;
-    @JsonIgnore
     private long maxId = 0;
 
     public StackFlatStorageImpl() {
@@ -73,13 +66,11 @@ public class StackFlatStorageImpl implements Storage<Flat> {
         return flats;
     }
 
-    @JsonIgnore
     @Override
     public Date getInitializationTime() {
         return creationDate;
     }
 
-    @JsonIgnore
     @Override
     public Class<?> getCollectionClass() {
         return flats.getClass();
@@ -90,7 +81,6 @@ public class StackFlatStorageImpl implements Storage<Flat> {
         flats = (Stack<Flat>) collection;
     }
 
-    @JsonIgnore
     @Override
     public long getMaximumId() {
         return maxId;

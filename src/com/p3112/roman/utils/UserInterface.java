@@ -1,5 +1,5 @@
 package com.p3112.roman.utils;
-// Created by Roman Devyatilov (Fr1m3n) in 17:37 09.02.2020
+// Created by Roman Devyatilov (Fr1m3n) in 16:12 15.02.2020
 
 
 import com.p3112.roman.collection.Coordinates;
@@ -8,9 +8,32 @@ import com.p3112.roman.collection.House;
 import com.p3112.roman.collection.View;
 import com.p3112.roman.exceptions.InvalidInputException;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Scanner;
 
-public class InputUtils {
+/**
+ * Класс, отвечающий за обмен информацией с пользователем.
+ */
+public class UserInterface {
+    private Reader reader;
+    private Writer writer;
+    private Scanner scanner;
+    private boolean needMessage;
+
+    /**
+     * Конструктор, который создаёт интерфейс и определяет куда писать и откуда считывать.
+     *  @param reader Откуда считывать
+     * @param writer Куда писать
+     * @param needMessage
+     */
+    public UserInterface(Reader reader, Writer writer, boolean needMessage) {
+        this.reader = reader;
+        this.writer = writer;
+        this.needMessage = needMessage;
+        this.scanner = new Scanner(reader);
+    }
 
     public static void checkNull(Object obj) {
         if (obj == null) {
@@ -22,24 +45,40 @@ public class InputUtils {
     /**
      * Метод, запрашивающий ввод из стандартного потока ввода. Перед вводом выводит сообщение в стандартный поток вывода.
      *
-     * @param message  Сообщение для пользователя, будет выведено перед вводом
-     * @param nullable Флаг. True - если мы допускаем пустой ввод от пользователя. False - если нам надо добиться от него не пустого ввода.
+     * @param message     Сообщение для пользователя, будет выведено перед вводом
+     * @param nullable    Флаг. True - если мы допускаем пустой ввод от пользователя. False - если нам надо добиться от него не пустого ввода.
      * @return Введённую строку пользователя, или null если пользователь ввёл пустую строку и флаг nullable равен true
      */
-    public static String readWithMessage(String message, boolean nullable) {
-        boolean flag = true;
-        String result = null;
+    public String readWithMessage(String message, boolean nullable) {
+        String result;
         do {
-            System.out.print(message);
-            Scanner scanner = new Scanner(System.in);
-//            while (!scanner.hasNextLine());
+            if (needMessage) {
+                try {
+                    write(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             result = scanner.nextLine();
             result = result.isEmpty() ? null : result;
         } while (!nullable && result == null);
         return result;
     }
 
-    public static String readWithMessage(String message, int min, int max) {
+    public void write(String message) throws IOException {
+        writer.write(message);
+        writer.flush();
+    }
+
+    /**
+     * Считывает из потока число и проверяет его на вхождение в промежуток [min; max]. При не корректном вводе, запрашивается повторный ввод.
+     *
+     * @param message     сообщение, пользователю
+     * @param min         нижняя граница (-1, если неважна)
+     * @param max         верхняя граница (-1, если неважна)
+     * @return Введённое пользователем число.
+     */
+    public String readWithMessage(String message, int min, int max) {
         String res;
         do {
             res = readWithMessage(message, false);
@@ -47,33 +86,36 @@ public class InputUtils {
         return res;
     }
 
+    public String read() {
+        return scanner.nextLine();
+    }
 
     /**
      * Метод, запрашивающий у пользователя ввод всех полей объекта Flat (с соответствующими сообщениями)
      *
      * @return Экземпляр Flat, созданный на основе введённых пользователем данных.
      */
-    public static Flat readFlatFromConsole() {
-        boolean flag = false;
+    public Flat readFlat() throws ClassCastException {
         String name = readWithMessage("Введите название квартиры: ", false);
-        Coordinates coordinates = readCoordinatesFromConsole();
+        Coordinates coordinates = readCoordinates();
         long area = Long.parseLong(readWithMessage("Введите площадь квартиры (целое число): ", 0, -1));
         long numberOfRooms = Long.parseLong(readWithMessage("Введите кол-во комнат в квартире (целое число от 0 до 18): ", 0, 18));
         Long livingSpace = Long.valueOf(readWithMessage("Введите жилую площадь (целое число): ", 0, -1));
-        boolean isNew = Boolean.parseBoolean(readWithMessage("Квартира новая (да, нет): ", false));
+        boolean isNew = parseBoolean(readWithMessage("Квартира новая (да, нет): ", false));
         View view = View.fromString(readWithMessage("Какой вид из квартиры (обычный, улица, двор): ", true));
-        House house = readHouseFromConsole();
+        House house = readHouse();
         return new Flat(name, coordinates, area, numberOfRooms, livingSpace, isNew, view, house);
     }
 
-    public static House readHouseFromConsole() {
+
+    public House readHouse() {
         String houseName = readWithMessage("Введите название дома: ", true);
         int houseYear = Integer.parseInt(readWithMessage("Год построки дома: ", 0, -1));
         Long houseFloors = Long.parseLong(readWithMessage("Количество этажей в доме: ", 0, -1));
         return new House(houseName, houseYear, houseFloors);
     }
 
-    public static Coordinates readCoordinatesFromConsole() {
+    public Coordinates readCoordinates() {
         Float x = Float.parseFloat(readWithMessage("Введите расположение квартиры по X (вещественное число): ", false));
         Long y = Long.valueOf(readWithMessage("Теперь расположение по Y (целое число): ", false));
         return new Coordinates(x, y);
@@ -101,4 +143,11 @@ public class InputUtils {
         return ((min < 0 || s >= min) && (max < 0 || s <= max));
     }
 
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public boolean hasNextLine() {
+        return scanner.hasNextLine();
+    }
 }

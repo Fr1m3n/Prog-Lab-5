@@ -8,7 +8,7 @@ import lombok.NonNull;
 
 @JsonAutoDetect
 @JsonRootName("house")
-public class House {
+public class House implements Comparable {
     private String name; //Поле может быть null
     private int year; //Значение поля должно быть больше 0
     private Long numberOfFloors; //Поле не может быть null, Значение поля должно быть больше 0
@@ -55,5 +55,20 @@ public class House {
 
     public void setNumberOfFloors(@NonNull Long numberOfFloors) {
         this.numberOfFloors = numberOfFloors;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o == null || !(o instanceof House)) {
+            return 1;
+        }
+        House other = (House)o;
+        if (this.getYear() != other.getYear()) {
+            return this.getYear() - other.getYear();
+        }
+        if (!this.numberOfFloors.equals(other.numberOfFloors)) {
+            return (int)(this.numberOfFloors - other.numberOfFloors);
+        }
+        return 0;
     }
 }

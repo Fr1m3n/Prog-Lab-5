@@ -1,5 +1,6 @@
 package com.p3112.roman.collection;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,25 +12,25 @@ public interface StorageService {
 
     void add(Collection<Flat> flats);
 
-    void addIfMin(Flat flat);
+    boolean addIfMin(Flat flat);
 
     void clear();
 
-    void countGreaterThanHouse(House house);
+    long countGreaterThanHouse(House house);
 
     List<Object> filterLessThanNumberOfRooms(long numOfRooms);
 
     void insertAt(int ind, Flat flat);
 
-    void removeAt(int ind);
+    boolean removeAt(int ind);
 
-    void removeById(long id);
+    boolean removeById(long id);
 
     String show();
 
-    void update(long id, Flat flat);
+    boolean update(long id, Flat flat);
 
     int size();
 
-    void save(String path);
+    void save(String path) throws IOException;
 }

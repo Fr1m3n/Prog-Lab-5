@@ -41,11 +41,20 @@ public class StackFlatStorageService implements StorageService {
     }
 
     @Override
-    public void addIfMin(Flat flat) {
-        st.toList().stream().sorted().findFirst().ifPresent(x -> {
-            add(x);
-            log.info("Элемент {} добавлен успешно", x);
-        });
+    public boolean addIfMin(Flat flat) {
+        List<Flat> flats = st.toList().stream().sorted().collect(Collectors.toList());
+        if (flats.isEmpty()) {
+            return false;
+        }
+        Flat firstFlat = flats.get(0);
+        if (firstFlat.compareTo(flat) < 0) {
+            add(flat);
+            log.info("Элемент {} добавлен успешно", flat);
+            return true;
+        } else {
+            log.info("Элемент оказался больше минимального.");
+            return false;
+        }
     }
 
     @Override
@@ -54,14 +63,14 @@ public class StackFlatStorageService implements StorageService {
     }
 
     @Override
-    public void countGreaterThanHouse(House house) {
+    public long countGreaterThanHouse(House house) {
+        return st.toList().stream().filter(x -> x.getHouse().compareTo(house) < 0).count();
 
     }
 
     @Override
     public List<Object> filterLessThanNumberOfRooms(long numOfRooms) {
         return st.toList().stream().filter(x -> x.getNumberOfRooms() < numOfRooms).collect(Collectors.toList());
-
     }
 
     @Override
@@ -70,31 +79,39 @@ public class StackFlatStorageService implements StorageService {
     }
 
     @Override
-    public void removeAt(int ind) {
+    public boolean removeAt(int ind) {
+        if (st.size() <= ind) {
+            return false;
+        }
         st.remove(st.get(ind));
+        return true;
     }
 
     @Override
-    public void removeById(long id) {
+    public boolean removeById(long id) {
         List<Flat> flatsToDelete = st.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());
+        if (flatsToDelete.isEmpty()) {
+            return false;
+        }
         flatsToDelete.forEach(st::remove);
+        return true;
     }
 
     @Override
     public String show() {
         StringBuilder sb = new StringBuilder("Элементов в коллекции: " + st.size()).append("\n");
-        st.toList().forEach(x -> {
-            sb.append(x.toString()).append('\n');
-        });
-
+        st.toList().forEach(x -> sb.append(x.toString()).append('\n'));
         return sb.toString();
     }
 
     @Override
-    public void update(long id, Flat flat) {
-        removeById(id);
+    public boolean update(long id, Flat flat) {
+        if (!removeById(id)) {
+            return false;
+        }
         flat.setId(id);
         st.put(flat);
+        return true;
     }
 
     @Override
@@ -103,14 +120,15 @@ public class StackFlatStorageService implements StorageService {
     }
 
     @Override
-    public void save(String pathToFile) {
+    public void save(String pathToFile) throws IOException {
         JsonWriter jsonWriter = new JsonWriter();
         try {
             FlatDTO[] flats = new FlatDTO[st.size()];
             st.toList().stream().map(FlatDTO::new).collect(Collectors.toList()).toArray(flats);
             jsonWriter.writeCollectionToFile(flats, pathToFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Ошибка во время сохранения коллекции в файл.");
+            throw e;
         }
     }
 }

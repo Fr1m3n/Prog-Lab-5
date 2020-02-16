@@ -14,7 +14,6 @@ public class CountGreaterThanHouse extends AbstractCommand {
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         House house = userInterface.readHouse();
-        ss.countGreaterThanHouse(house);
-
+        userInterface.writeln("В коллекции " + ss.countGreaterThanHouse(house) + " элементов, у которых дом круче данного.");
     }
 }

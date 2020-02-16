@@ -22,7 +22,7 @@ public class Save extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
+    public void execute(UserInterface userInterface, StorageService ss, String[] args) throws IOException {
         ss.save(PATH);
         userInterface.writeln("Коллекция сохранена успешно.");
         log.info("Сохранено успешно.");

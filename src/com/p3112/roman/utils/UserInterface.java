@@ -95,7 +95,7 @@ public class UserInterface {
         String res;
         do {
             res = readWithMessage(message, false);
-        } while (!checkStringLength(Double.parseDouble(res), min, max));
+        } while (!checkNumber(Double.parseDouble(res), min, max));
         return res;
     }
 
@@ -153,7 +153,7 @@ public class UserInterface {
      * @param max Максимальное значение
      * @return true - если значение числа лежит в отрезке [min, max], иначе false
      */
-    private static boolean checkStringLength(double s, int min, int max) {
+    public static boolean checkNumber(double s, int min, int max) {
         return ((min < 0 || s >= min) && (max < 0 || s <= max));
     }
 

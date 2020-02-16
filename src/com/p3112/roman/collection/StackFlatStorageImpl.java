@@ -25,10 +25,6 @@ public class StackFlatStorageImpl implements Storage<Flat> {
 
     @Override
     public void put(Flat obj) {
-        System.out.println(obj.getId());
-        for (Long aLong : idSet) {
-            System.out.print(aLong);
-        }
         while (idSet.contains(obj.getId())) {
             obj.setId(maxId);
             maxId = Math.max(maxId, obj.getId() + 1);

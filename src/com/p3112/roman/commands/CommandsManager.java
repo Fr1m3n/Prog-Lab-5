@@ -5,6 +5,7 @@ import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.NoSuchCommandException;
 import com.p3112.roman.utils.UserInterface;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ public class CommandsManager {
         addCommand(new AddIfMin());
         addCommand(new Clear());
         addCommand(new CountGreaterThanHouse());
-        addCommand(new ExecuteSript());
+        addCommand(new ExecuteScript());
         addCommand(new Exit());
         addCommand(new FilterLessThanNumberOfRooms());
         addCommand(new InsertAt());
@@ -55,7 +56,7 @@ public class CommandsManager {
         return commands.getOrDefault(s, null);
     }
 
-    public void executeCommand(UserInterface userInterface, StorageService storageService, String s) {
+    public void executeCommand(UserInterface userInterface, StorageService storageService, String s) throws IOException {
         String[] parsedCommand = parseCommand(s);
         AbstractCommand command = getCommand(parsedCommand[0]);
         String[] args = Arrays.copyOfRange(parsedCommand, 1, parsedCommand.length);

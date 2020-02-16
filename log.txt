@@ -1,3 +1,4 @@
-14:52 [main] INFO com.p3112.roman.Main - CLI запущен.
-14:52 [main] INFO com.p3112.roman.Main - 123
-14:52 [main] INFO com.p3112.roman.Main - Инициализация коллекции и вспомогательных классов прошла успешно!
+15:40 [main] INFO com.p3112.roman.Main - CLI запущен.
+15:40 [main] INFO com.p3112.roman.Main - Инициализация коллекции и вспомогательных классов прошла успешно!
+15:40 [main] INFO com.p3112.roman.commands.Add - Квартира успешно добавлена. Ей присвоен id: 0
+15:40 [main] INFO com.p3112.roman.commands.Add - Квартира успешно добавлена. Ей присвоен id: 2

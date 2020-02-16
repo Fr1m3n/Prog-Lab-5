@@ -3,6 +3,7 @@ package com.p3112.roman.commands;
 
 
 import com.p3112.roman.collection.StorageService;
+import com.p3112.roman.exceptions.InvalidInputException;
 import com.p3112.roman.utils.UserInterface;
 
 public class RemoveAt extends AbstractCommand {
@@ -13,7 +14,16 @@ public class RemoveAt extends AbstractCommand {
 
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
-
-//        ss.removeAt();
+        if (args.length < 1) {
+            throw new InvalidInputException("Need argument");
+        }
+        int pos;
+        try {
+            pos = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Need numerical argument");
+        }
+        userInterface.writeln("Удаляем элемент на позиции " + pos);
+        ss.removeAt(pos);
     }
 }

@@ -7,6 +7,7 @@ import java.util.*;
 public class StackFlatStorageImpl implements Storage<Flat> {
     private Stack<Flat> flats = new Stack<>();
     private Date creationDate;
+    private Set<Long> idSet = new HashSet<>();
     private long maxId = 0;
 
     public StackFlatStorageImpl() {
@@ -24,16 +25,27 @@ public class StackFlatStorageImpl implements Storage<Flat> {
 
     @Override
     public void put(Flat obj) {
-        obj.setId(maxId);
+        System.out.println(obj.getId());
+        for (Long aLong : idSet) {
+            System.out.print(aLong);
+        }
+        while (idSet.contains(obj.getId())) {
+            obj.setId(maxId);
+            maxId = Math.max(maxId, obj.getId() + 1);
+        }
         flats.push(obj);
-        maxId = Math.max(maxId, obj.getId() + 1);
+        idSet.add(obj.getId());
     }
 
     @Override
     public void put(int index, Flat obj) {
-        obj.setId(maxId);
+        while (!idSet.contains(obj.getId())) {
+            obj.setId(maxId);
+            maxId = Math.max(maxId, obj.getId() + 1);
+        }
         flats.add(index, obj);
-        maxId = Math.max(maxId, obj.getId() + 1);
+        idSet.add(obj.getId());
+
     }
 
     @Override

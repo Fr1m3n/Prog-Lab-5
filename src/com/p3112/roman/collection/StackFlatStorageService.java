@@ -71,12 +71,13 @@ public class StackFlatStorageService implements StorageService {
 
     @Override
     public void removeAt(int ind) {
-
+        st.remove(st.get(ind));
     }
 
     @Override
     public void removeById(long id) {
-
+        List<Flat> flatsToDelete = st.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());
+        flatsToDelete.forEach(st::remove);
     }
 
     @Override
@@ -91,7 +92,9 @@ public class StackFlatStorageService implements StorageService {
 
     @Override
     public void update(long id, Flat flat) {
-
+        removeById(id);
+        flat.setId(id);
+        st.put(flat);
     }
 
     @Override

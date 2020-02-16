@@ -8,7 +8,7 @@ import com.p3112.roman.utils.UserInterface;
 public abstract class AbstractCommand {
     protected String command;
     protected String helpText;
-    protected int argumentsCount;
+    protected int argumentsCount = 0;
 
     public abstract void execute(UserInterface userInterface, StorageService ss, String[] args);
 

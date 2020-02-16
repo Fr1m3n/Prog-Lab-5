@@ -4,19 +4,24 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.StorageService;
+import com.p3112.roman.exceptions.InvalidInputException;
 import com.p3112.roman.utils.UserInterface;
 
 public class Update extends AbstractCommand {
     public Update() {
         command = "update";
         helpText = "Обновить значение элемента коллекции, id которого равен заданному.";
+        argumentsCount = 1;
     }
 
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
+        if (args.length < 1) {
+            throw new InvalidInputException("Введено " + args.length + " аргументов, ожидалось " + argumentsCount);
+        }
         long id;
         try {
-            id = Long.parseLong(args[1]);
+            id = Long.parseLong(args[0]);
         } catch (ClassCastException e) {
             e.printStackTrace();
             return;

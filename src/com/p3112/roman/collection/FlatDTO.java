@@ -127,9 +127,10 @@ public class FlatDTO {
 
     @JsonIgnore
     public Flat toFlat() {
-        Flat flat = new Flat(
+        Flat flat = new Flat(id,
                 name,
                 coordinates,
+                creationDate,
                 area,
                 numberOfRooms,
                 livingSpace,

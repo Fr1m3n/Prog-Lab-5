@@ -1,0 +1,1 @@
+01:06 [main] INFO com.p3112.roman.Main - CLI запущен.

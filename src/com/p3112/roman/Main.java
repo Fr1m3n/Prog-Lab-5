@@ -26,33 +26,36 @@ public class Main {
                 new OutputStreamWriter(System.out, StandardCharsets.UTF_8),
                 true);
         StorageService storageService = new StackFlatStorageService(storage);
-        Path pathToInitFile = Paths.get(args[0]);
-        log.info("Инициализация коллекции и вспомогательных классов прошла успешно!");
-        try {
-            FlatDTO[] flats = jsonReader.readCollectionFromFile(pathToInitFile.toAbsolutePath().toString());
-            for (FlatDTO flatDTO : flats) {
-                Flat flat = flatDTO.toFlat();
-                if (UserInterface.checkNumber(flat.getNumberOfRooms(), 0, 18)) {
-                    storage.put(flat);
-                } else {
-                    log.error("Запись номер с полем name равным: {} - не прошла проверку на границы числа.", flat.getId());
+        if (args.length > 0) {
+            Path pathToInitFile = Paths.get(args[0]);
+            log.info("Инициализация коллекции и вспомогательных классов прошла успешно!");
+            try {
+                FlatDTO[] flats = jsonReader.readCollectionFromFile(pathToInitFile.toAbsolutePath().toString());
+                for (FlatDTO flatDTO : flats) {
+                    Flat flat = flatDTO.toFlat();
+                    if (UserInterface.checkNumber(flat.getNumberOfRooms(), 0, 18)) {
+                        storage.put(flat);
+                    } else {
+                        log.error("Запись номер с полем name равным: {} - не прошла проверку на границы числа.", flat.getId());
+                    }
                 }
+                cliInterface.writeln("Успешно добавлено " + storage.size() + " из " + flats.length + " записей.");
+            } catch (FileNotFoundException e) {
+                cliInterface.writeln("Что-то пошло не так во время открытия файла. Проверьте его существование и права на него. Для более подробной информации смотри в лог.");
+                log.error("Ошибка при открытии файла {}. Текст ошибки {}", args[0], e.getMessage());
+            } catch (IOException e) {
+                cliInterface.writeln("Что-то пошло не так во время считывния файла, смотрите логи.");
+                log.error("Ошибка ввода/вывода во время считывания файла {}. {}", args[0], e.getMessage());
+            } catch (ClassCastException e) {
+                log.error("Ошибка приведения типов. {}", e.getMessage());
+                cliInterface.writeln("Ошибка во время каста. Смотрите логи для более подробной информации об ошибке.");
+            } catch (Exception e) {
+                cliInterface.writeln("Меня написал дебил, который что-то не проверил... Там в логах должна быть инфа об ошибке.");
+                log.error("Неизвестная ошибка. {}", e.getMessage());
             }
-            cliInterface.writeln("Успешно добавлено " + storage.size() + " из " + flats.length + " записей.");
-        } catch (FileNotFoundException e) {
-            cliInterface.writeln("Что-то пошло не так во время открытия файла. Проверьте его существование и права на него. Для более подробной информации смотри в лог.");
-            log.error("Ошибка при открытии файла {}. Текст ошибки {}", args[0], e.getMessage());
-        } catch (IOException e) {
-            cliInterface.writeln("Что-то пошло не так во время считывния файла, смотрите логи.");
-            log.error("Ошибка ввода/вывода во время считывания файла {}. {}", args[0], e.getMessage());
-        } catch (ClassCastException e) {
-            log.error("Ошибка приведения типов. {}", e.getMessage());
-            cliInterface.writeln("Ошибка во время каста. Смотрите логи для более подробной информации об ошибке.");
-        } catch (Exception e) {
-            cliInterface.writeln("Меня написал дебил, который что-то не проверил... Там в логах должна быть инфа об ошибке.");
-            log.error("Неизвестная ошибка. {}", e.getMessage());
+        } else {
+            cliInterface.writeln("Файл для инициализации коллекции не введён. Имя файла следует ввести в аргументах запуска программы.");
         }
-
         while (true) {
             if (cliInterface.hasNextLine()) {
                 String cmd = cliInterface.read();

@@ -18,9 +18,9 @@ public enum View implements Comparable<View> {
         this.rus = rus;
     }
 
-    public static View fromString(String s) {
+    public static View byOrdinal(int s) {
         for (View value : View.values()) {
-            if (value.rus.equalsIgnoreCase(s)) {
+            if (value.ordinal() == s) {
                 return value;
             }
         }

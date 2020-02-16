@@ -38,13 +38,6 @@ public class UserInterface {
         this.scanner = new Scanner(reader);
     }
 
-    public static void checkNull(Object obj) {
-        if (obj == null) {
-            throw new InvalidInputException("NonNull field has got null value");
-        }
-    }
-
-
     /**
      * Метод, запрашивающий ввод из стандартного потока ввода. Перед вводом выводит сообщение в стандартный поток вывода.
      *
@@ -111,11 +104,11 @@ public class UserInterface {
     public Flat readFlat() throws ClassCastException, InvalidInputException, NumberFormatException {
         String name = readWithMessage("Введите название квартиры: ", false);
         Coordinates coordinates = readCoordinates();
-        long area = Long.parseLong(readWithMessage("Введите площадь квартиры (целое число): ", 0, -1));
+        long area = Long.parseLong(readWithMessage("Введите площадь квартиры (целое число, больше 0): ", 0, -1));
         long numberOfRooms = Long.parseLong(readWithMessage("Введите кол-во комнат в квартире (целое число от 0 до 18): ", 0, 18));
-        Long livingSpace = Long.valueOf(readWithMessage("Введите жилую площадь (целое число): ", 0, -1));
-        boolean isNew = parseBoolean(readWithMessage("Квартира новая (да, нет): ", false));
-        View view = View.fromString(readWithMessage("Какой вид из квартиры (обычный, улица, двор): ", true));
+        Long livingSpace = Long.valueOf(readWithMessage("Введите жилую площадь (целое число, больше 0): ", 0, -1));
+        boolean isNew = parseBoolean(readWithMessage("Квартира новая (+, -): ", false));
+        View view = readView();
         House house = readHouse();
         return new Flat(name, coordinates, area, numberOfRooms, livingSpace, isNew, view, house);
     }
@@ -134,11 +127,23 @@ public class UserInterface {
         return new Coordinates(x, y);
     }
 
+    public View readView() {
+        StringBuilder sb = new StringBuilder();
+        for (View value : View.values()) {
+            sb.append(value.ordinal()).append(" - ").append(value.getRus()).append("\n");
+        }
+        String inp = readWithMessage("Какой вид из квартиры. Введите число или пустую строку: \n" + sb.toString(), true);
+        if (inp == null) {
+            return null;
+        }
+        return View.byOrdinal(Integer.parseInt(inp));
+    }
+
 
     public static boolean parseBoolean(String s) {
-        if ("да".equals(s.toLowerCase())) {
+        if ("+".equals(s.toLowerCase())) {
             return true;
-        } else if ("нет".equals(s.toLowerCase())) {
+        } else if ("-".equals(s.toLowerCase())) {
             return false;
         }
         return false;

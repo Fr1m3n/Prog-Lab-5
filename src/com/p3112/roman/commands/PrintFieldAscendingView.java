@@ -15,7 +15,7 @@ public class PrintFieldAscendingView extends AbstractCommand {
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         for (View value : View.values()) {
-            System.out.println(value.getRus());
+            userInterface.writeln(value.getRus());
         }
     }
 }

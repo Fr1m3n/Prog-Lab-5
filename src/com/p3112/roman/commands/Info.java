@@ -13,6 +13,6 @@ public class Info extends AbstractCommand {
 
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
-        System.out.println(ss.info());
+        userInterface.writeln(ss.info());
     }
 }

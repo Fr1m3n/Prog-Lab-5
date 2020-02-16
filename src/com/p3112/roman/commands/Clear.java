@@ -17,6 +17,6 @@ public class Clear extends AbstractCommand {
         int count = ss.size();
         ss.clear();
         userInterface.writeln("Коллекция успешно очищенна! Элементов удалено: " + count);
-        log.info("Коллекция очищенна.");
+//        log.info("Коллекция очищенна.");
     }
 }

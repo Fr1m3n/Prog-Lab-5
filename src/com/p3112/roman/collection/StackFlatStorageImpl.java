@@ -4,12 +4,19 @@ package com.p3112.roman.collection;
 
 import java.util.*;
 
+
+/**
+ * Реализация Storage. Хранит квартиры в стэке.
+ */
 public class StackFlatStorageImpl implements Storage<Flat> {
     private Stack<Flat> flats = new Stack<>();
     private Date creationDate;
     private Set<Long> idSet = new HashSet<>();
     private long maxId = 0;
 
+    /**
+     * Конструктор, который инициализирует время создания объекта.
+     */
     public StackFlatStorageImpl() {
         creationDate = new Date();
     }
@@ -23,6 +30,11 @@ public class StackFlatStorageImpl implements Storage<Flat> {
         this.flats = flats;
     }
 
+    /**
+     * Метод, добавляющий квартиру в стэк. Гарантирует уникальность идентификатора квартиры.
+     *
+     * @param obj объект квартиры
+     */
     @Override
     public void put(Flat obj) {
         while (idSet.contains(obj.getId())) {
@@ -33,6 +45,13 @@ public class StackFlatStorageImpl implements Storage<Flat> {
         idSet.add(obj.getId());
     }
 
+
+    /**
+     * Добавляет квартиру в стэк на определённую позицию.
+     *
+     * @param index позиция, в которую добавится квартира
+     * @param obj   квартира, которая будет добавлена в стэк
+     */
     @Override
     public void put(int index, Flat obj) {
         while (!idSet.contains(obj.getId())) {
@@ -44,31 +63,62 @@ public class StackFlatStorageImpl implements Storage<Flat> {
 
     }
 
+
+    /**
+     * Метод, возращающий квартиру по индексу в стэке.
+     *
+     * @param index индекс, по которому будет возвращена квартира
+     * @return объект класса Flat, который лежал в стэке по индексу index
+     */
     @Override
     public Flat get(int index) {
         return flats.get(index);
     }
 
+
+    /**
+     * Возарщает квартиру с верхушки стэка.
+     *
+     * @return квартира с верхушки стэка
+     */
     @Override
     public Flat get() {
         return flats.peek();
     }
 
+    /**
+     * Удаляет объект из стэка.
+     *
+     * @param obj объект, который нужно удалить
+     */
     @Override
     public void remove(Flat obj) {
         flats.remove(obj);
     }
 
+    /**
+     * Возарщает кол-во квартир в стэке.
+     *
+     * @return кол-во элементов в стэке.
+     */
     @Override
     public int size() {
         return flats.size();
     }
 
+    /**
+     * Очищает стэк.
+     */
     @Override
     public void clear() {
         flats.clear();
     }
 
+    /**
+     * Преобразовывает коллекцию в List.
+     *
+     * @return List, с элементами из стэка
+     */
     @Override
     public List<Flat> toList() {
         return flats;

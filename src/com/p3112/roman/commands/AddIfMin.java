@@ -16,6 +16,11 @@ public class AddIfMin extends AbstractCommand {
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         Flat flat = userInterface.readFlat();
-        ss.addIfMin(flat);
+        boolean success = ss.addIfMin(flat);
+        if (success) {
+            userInterface.writeln("Объект успешно добавлен в коллекцию.");
+        } else {
+            userInterface.writeln("Объект оказался больше минимального в коллекции. Объект не был добавлен.");
+        }
     }
 }

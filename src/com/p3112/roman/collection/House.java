@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.NonNull;
 
+/**
+ * Модель для дома
+ */
 @JsonAutoDetect
-@JsonRootName("house")
 public class House implements Comparable {
     private String name; //Поле может быть null
     private int year; //Значение поля должно быть больше 0
@@ -26,11 +28,7 @@ public class House implements Comparable {
 
     @Override
     public String toString() {
-        return "House{" +
-                "name='" + name + '\'' +
-                ", year=" + year +
-                ", numberOfFloors=" + numberOfFloors +
-                '}';
+        return "name='" + name + '\'' + " year=" + year + " numberOfFloors=" + numberOfFloors;
     }
 
     public String getName() {
@@ -45,7 +43,7 @@ public class House implements Comparable {
         return year;
     }
 
-    public void setYear(@NonNull int year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -62,12 +60,12 @@ public class House implements Comparable {
         if (o == null || !(o instanceof House)) {
             return 1;
         }
-        House other = (House)o;
+        House other = (House) o;
         if (this.getYear() != other.getYear()) {
             return this.getYear() - other.getYear();
         }
         if (!this.numberOfFloors.equals(other.numberOfFloors)) {
-            return (int)(this.numberOfFloors - other.numberOfFloors);
+            return (int) (this.numberOfFloors - other.numberOfFloors);
         }
         return 0;
     }

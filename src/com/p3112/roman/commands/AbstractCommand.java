@@ -7,11 +7,21 @@ import com.p3112.roman.utils.UserInterface;
 
 import java.io.IOException;
 
+/**
+ * Абстрактный класс для комманд.
+ */
 public abstract class AbstractCommand {
     protected String command;
     protected String helpText;
     protected int argumentsCount = 0;
 
+    /**
+     * Метод, который описывает логику команды.
+     * @param userInterface интерфейс, по которому производится обмен данными между юзером и программой
+     * @param ss сервис управления коллекцией
+     * @param args аргументы команды
+     * @throws IOException В случае, если команда работала с I/O и произошла ошибка.
+     */
     public abstract void execute(UserInterface userInterface, StorageService ss, String[] args) throws IOException;
 
     public String getCommand() {

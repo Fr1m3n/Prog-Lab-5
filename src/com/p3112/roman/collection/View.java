@@ -3,6 +3,7 @@ package com.p3112.roman.collection;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.p3112.roman.exceptions.InvalidInputException;
 
 @JsonAutoDetect
 @JsonRootName("view")
@@ -24,7 +25,7 @@ public enum View implements Comparable<View> {
                 return value;
             }
         }
-        throw new IllegalArgumentException("Не найден вид, соответствующий строке: " + s);
+        throw new InvalidInputException("Не найден вид, соответствующий строке: " + s);
     }
 
     public String getRus() {

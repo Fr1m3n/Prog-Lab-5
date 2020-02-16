@@ -10,16 +10,29 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Класс, реализующий сервис для коллекции StackFlatStorageImpl
+ */
 @Slf4j
 public class StackFlatStorageService implements StorageService {
     private static Storage<Flat> st;
 
+    /**
+     * Конструктор, который инициализирует коллекцию с которой работать.
+     *
+     * @param st коллекция, с которой будет работать сервис
+     */
     public StackFlatStorageService(Storage<Flat> st) {
         if (StackFlatStorageService.st == null) {
             StackFlatStorageService.st = st;
         }
     }
 
+    /**
+     * Возвращает информацию о коллекицц.
+     *
+     * @return строка с информацией о коллекции
+     */
     public String info() {
         StringBuilder sb = new StringBuilder();
         sb.append("Время инициализации коллекции: ").append(st.getInitializationTime().toString()).append('\n');
@@ -28,18 +41,23 @@ public class StackFlatStorageService implements StorageService {
         return sb.toString();
     }
 
+    /**
+     * Добавляет квартиру в коллекцию.
+     *
+     * @param flat квартира, которая будет добавлена.
+     */
     @Override
     public void add(Flat flat) {
         st.put(flat);
     }
 
-    @Override
-    public void add(Collection<Flat> flats) {
-        for (Flat flat : flats) {
-            st.put(flat);
-        }
-    }
 
+    /**
+     * Добавляет квартиру, если она меньше самой наименьшей квартиры из коллекции.
+     *
+     * @param flat квартира, которая будет добавлена
+     * @return true - если квартира добавлена успешно, false - в ином случае
+     */
     @Override
     public boolean addIfMin(Flat flat) {
         List<Flat> flats = st.toList().stream().sorted().collect(Collectors.toList());
@@ -47,7 +65,7 @@ public class StackFlatStorageService implements StorageService {
             return false;
         }
         Flat firstFlat = flats.get(0);
-        if (firstFlat.compareTo(flat) < 0) {
+        if (firstFlat.compareTo(flat) > 0) {
             add(flat);
             log.info("Элемент {} добавлен успешно", flat);
             return true;
@@ -57,27 +75,54 @@ public class StackFlatStorageService implements StorageService {
         }
     }
 
+    /**
+     * Очищает коллекцию.
+     */
     @Override
     public void clear() {
         st.clear();
     }
 
+    /**
+     * Возвращает кол-во квартир, у которых значение house меньше данного.
+     *
+     * @param house данный пользователем объект класса House
+     * @return кол-во квартир, которые удовлетворяют условию
+     */
     @Override
     public long countGreaterThanHouse(House house) {
         return st.toList().stream().filter(x -> x.getHouse().compareTo(house) < 0).count();
 
     }
 
+    /**
+     * Возвращает список всех квартир, у которых кол-во комнат меньше данного.
+     *
+     * @param numOfRooms сравниваемое значение кол-ва квартир
+     * @return список квартир, удовлетворяющих условию
+     */
     @Override
-    public List<Object> filterLessThanNumberOfRooms(long numOfRooms) {
+    public List<Flat> filterLessThanNumberOfRooms(long numOfRooms) {
         return st.toList().stream().filter(x -> x.getNumberOfRooms() < numOfRooms).collect(Collectors.toList());
     }
 
+    /**
+     * Помещает квартиру в коллекцию на определённую позицию.
+     *
+     * @param ind  позиция, в которую необходимо поместить квартиру
+     * @param flat квартиру, которую необходимо поместить
+     */
     @Override
     public void insertAt(int ind, Flat flat) {
         st.put(ind, flat);
     }
 
+    /**
+     * Удаляет квартиру из коллекции по позиции.
+     *
+     * @param ind позиция по которой необходимо удалить квартиру.
+     * @return true - если квартира удалена успешно, false - в ином случае.
+     */
     @Override
     public boolean removeAt(int ind) {
         if (st.size() <= ind) {
@@ -87,6 +132,12 @@ public class StackFlatStorageService implements StorageService {
         return true;
     }
 
+    /**
+     * Удаляет квартиру по индентификатору.
+     *
+     * @param id идентификатор квартиры
+     * @return true - если квартира с данный id существовала и была удалена, false - в ином случае.
+     */
     @Override
     public boolean removeById(long id) {
         List<Flat> flatsToDelete = st.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());
@@ -97,6 +148,11 @@ public class StackFlatStorageService implements StorageService {
         return true;
     }
 
+    /**
+     * Возвращает все элементы коллекции.
+     *
+     * @return Строку со всеми элементами коллекции.
+     */
     @Override
     public String show() {
         StringBuilder sb = new StringBuilder("Элементов в коллекции: " + st.size()).append("\n");
@@ -104,6 +160,13 @@ public class StackFlatStorageService implements StorageService {
         return sb.toString();
     }
 
+    /**
+     * Изменяет квартиру с заданным индентификатором.
+     *
+     * @param id   идентификатор квартиры
+     * @param flat объект, который будет вместо старого значения
+     * @return true - если объект был найден и обновлён, false -  в ином случае.
+     */
     @Override
     public boolean update(long id, Flat flat) {
         if (!removeById(id)) {
@@ -114,11 +177,22 @@ public class StackFlatStorageService implements StorageService {
         return true;
     }
 
+    /**
+     * Возвращает размер коллекции.
+     *
+     * @return кол-во элементов в коллекции.
+     */
     @Override
     public int size() {
         return st.size();
     }
 
+    /**
+     * Сохраняет коллекцию в файл, в формате JSON
+     *
+     * @param pathToFile путь до файла, который будет помещён JSON
+     * @throws IOException В случае, если ввод/вывод был неудачен.
+     */
     @Override
     public void save(String pathToFile) throws IOException {
         JsonWriter jsonWriter = new JsonWriter();

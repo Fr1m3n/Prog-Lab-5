@@ -5,6 +5,9 @@ package com.p3112.roman.collection;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.NonNull;
 
+/**
+ * Модель координат
+ */
 @JsonAutoDetect
 public class Coordinates {
     private Float x; //Поле не может быть null

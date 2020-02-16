@@ -22,19 +22,19 @@ public class UserInterface {
     private Reader reader;
     private Writer writer;
     private Scanner scanner;
-    private boolean needMessage;
+    private boolean interactive;
 
     /**
      * Конструктор, который создаёт интерфейс и определяет куда писать и откуда считывать.
      *
      * @param reader      Откуда считывать
      * @param writer      Куда писать
-     * @param needMessage
+     * @param interactive Флаг, обозначающий режим работы интерфейса (true - интерактивный)
      */
-    public UserInterface(Reader reader, Writer writer, boolean needMessage) {
+    public UserInterface(Reader reader, Writer writer, boolean interactive) {
         this.reader = reader;
         this.writer = writer;
-        this.needMessage = needMessage;
+        this.interactive = interactive;
         this.scanner = new Scanner(reader);
     }
 
@@ -51,22 +51,32 @@ public class UserInterface {
             if (result == null) {
                 writeln("Введите не пустую строку.");
             }
-            if (needMessage) {
+            if (interactive) {
                 writeln(message);
             }
             result = scanner.nextLine();
             result = result.isEmpty() ? null : result;
-        } while (needMessage && !nullable && result == null);
-        if (!needMessage && result == null) {
+        } while (interactive && !nullable && result == null);
+        if (!interactive && result == null) {
             throw new InvalidInputException("Получена пуста строка в поле, которое не может быть null.");
         }
         return result;
     }
 
+    /**
+     * Выводит в поток вывода строку с добавлением символа переноса.
+     * @param message строка для вывода.
+     */
     public void writeln(String message) {
         write(message + "\n");
     }
 
+
+    /**
+     * Выводит в поток вывода строку.
+     *
+     * @param message строка для вывода.
+     */
     public void write(String message) {
         try {
             writer.write(message);
@@ -114,6 +124,12 @@ public class UserInterface {
     }
 
 
+    /**
+     * Метод считывающий дом.
+     *
+     * @return объект класса House, соответствующий вводу пользователя
+     * @throws NumberFormatException в случае, если пользователь ввёл не число
+     */
     public House readHouse() throws NumberFormatException {
         String houseName = readWithMessage("Введите название дома: ", true);
         int houseYear = Integer.parseInt(readWithMessage("Год построки дома: ", 0, -1));
@@ -121,18 +137,31 @@ public class UserInterface {
         return new House(houseName, houseYear, houseFloors);
     }
 
-    public Coordinates readCoordinates() throws NumberFormatException{
+
+    /**
+     * Метод считывающий координаты.
+     *
+     * @return объект класса Coordinates, соответствующий вводу пользователя
+     * @throws NumberFormatException в случае, если пользователь ввёл не число
+     */
+    public Coordinates readCoordinates() throws NumberFormatException {
         Float x = Float.parseFloat(readWithMessage("Введите расположение квартиры по X (вещественное число): ", false));
         Long y = Long.valueOf(readWithMessage("Теперь расположение по Y (целое число): ", false));
         return new Coordinates(x, y);
     }
 
+
+    /**
+     * Метод считывающий View с сообщениями для пользователя.
+     *
+     * @return View, соответствующий вводу пользователя
+     */
     public View readView() {
         StringBuilder sb = new StringBuilder();
         for (View value : View.values()) {
-            sb.append(value.ordinal()).append(" - ").append(value.getRus()).append("\n");
+            sb.append("\n").append(value.ordinal()).append(" - ").append(value.getRus());
         }
-        String inp = readWithMessage("Какой вид из квартиры. Введите число или пустую строку: \n" + sb.toString(), true);
+        String inp = readWithMessage("Какой вид из квартиры. Введите число или пустую строку: " + sb.toString(), true);
         if (inp == null) {
             return null;
         }
@@ -140,6 +169,12 @@ public class UserInterface {
     }
 
 
+    /**
+     * Метод, который парсит логическое значение.
+     *
+     * @param s входная строка для парсинга
+     * @return true - если s == "+", иначе false
+     */
     public static boolean parseBoolean(String s) {
         if ("+".equals(s.toLowerCase())) {
             return true;
@@ -162,6 +197,12 @@ public class UserInterface {
         return ((min < 0 || s >= min) && (max < 0 || s <= max));
     }
 
+
+    /**
+     * Метод возрващающий есть ли что считывать из входного потока.
+     *
+     * @return Есть ли ещё что считывать.
+     */
     public boolean hasNextLine() {
         return scanner.hasNextLine();
     }

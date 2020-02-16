@@ -24,6 +24,10 @@ public class RemoveAt extends AbstractCommand {
             throw new InvalidInputException("Need numerical argument");
         }
         userInterface.writeln("Удаляем элемент на позиции " + pos);
-        ss.removeAt(pos);
+        if (ss.removeAt(pos)) {
+            userInterface.writeln("Элемент успешно удалён");
+        } else {
+            userInterface.writeln("Элемента на данной позиции нет.");
+        }
     }
 }

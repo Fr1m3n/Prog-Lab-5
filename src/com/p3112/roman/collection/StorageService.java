@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Интерфейс для сервиса, который будет отвечать за всю бизнес-логику необходимую для приложения.
+ */
 // Created by Roman Devyatilov (Fr1m3n) in 15:02 09.02.2020
 public interface StorageService {
     String info();
 
     void add(Flat flat);
-
-    void add(Collection<Flat> flats);
 
     boolean addIfMin(Flat flat);
 
@@ -18,7 +19,7 @@ public interface StorageService {
 
     long countGreaterThanHouse(House house);
 
-    List<Object> filterLessThanNumberOfRooms(long numOfRooms);
+    List<Flat> filterLessThanNumberOfRooms(long numOfRooms);
 
     void insertAt(int ind, Flat flat);
 

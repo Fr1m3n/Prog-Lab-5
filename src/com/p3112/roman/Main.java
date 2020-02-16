@@ -1,6 +1,7 @@
 package com.p3112.roman;
 
 import com.p3112.roman.collection.*;
+
 import com.p3112.roman.commands.CommandsManager;
 import com.p3112.roman.exceptions.InvalidInputException;
 import com.p3112.roman.exceptions.NoSuchCommandException;
@@ -14,9 +15,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
+/**
+ * Главный класс CLI приложения.
+ */
 @Slf4j
 public class Main {
 
+    /**
+     * Точка входа.
+     * @param args аргументы из командной строки
+     */
     public static void main(String[] args) {
         log.info("CLI запущен.");
         Storage<Flat> storage = new StackFlatStorageImpl();
@@ -26,9 +34,10 @@ public class Main {
                 new OutputStreamWriter(System.out, StandardCharsets.UTF_8),
                 true);
         StorageService storageService = new StackFlatStorageService(storage);
+        log.info("Инициализация коллекции и вспомогательных классов прошла успешно!");
         if (args.length > 0) {
             Path pathToInitFile = Paths.get(args[0]);
-            log.info("Инициализация коллекции и вспомогательных классов прошла успешно!");
+            boolean success = false;
             try {
                 FlatDTO[] flats = jsonReader.readCollectionFromFile(pathToInitFile.toAbsolutePath().toString());
                 for (FlatDTO flatDTO : flats) {
@@ -40,6 +49,7 @@ public class Main {
                     }
                 }
                 cliInterface.writeln("Успешно добавлено " + storage.size() + " из " + flats.length + " записей.");
+                success = true;
             } catch (FileNotFoundException e) {
                 cliInterface.writeln("Что-то пошло не так во время открытия файла. Проверьте его существование и права на него. Для более подробной информации смотри в лог.");
                 log.error("Ошибка при открытии файла {}. Текст ошибки {}", args[0], e.getMessage());
@@ -52,6 +62,10 @@ public class Main {
             } catch (Exception e) {
                 cliInterface.writeln("Меня написал дебил, который что-то не проверил... Там в логах должна быть инфа об ошибке.");
                 log.error("Неизвестная ошибка. {}", e.getMessage());
+            } finally {
+                if (!success) {
+                    cliInterface.writeln("Что-то пошло не так при инициализации коллекции. Теперь вы работаете с пустой коллекцией.");
+                }
             }
         } else {
             cliInterface.writeln("Файл для инициализации коллекции не введён. Имя файла следует ввести в аргументах запуска программы.");

@@ -7,13 +7,18 @@ import com.p3112.roman.collection.FlatDTO;
 
 import java.io.*;
 
+/**
+ * Класс, отвечающий за десереализацию квартир из JSON
+ */
 public class JsonReader {
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public Flat readFlatFromFile(String pathToFile) throws IOException {
-        return (Flat) objectMapper.readValue(new FileInputStream(pathToFile), Flat.class);
-    }
-
+    /**
+     * Читает список DTO для квартир.
+     * @param pathToFile путь до файла с JSON
+     * @return Массив FlatDTO, объектов из файла
+     * @throws IOException В случае если файл недоступен для чтения.
+     */
     public FlatDTO[] readCollectionFromFile(String pathToFile) throws IOException {
         try {
             FlatDTO[] flats = objectMapper.readValue(new FileReader(pathToFile), FlatDTO[].class);

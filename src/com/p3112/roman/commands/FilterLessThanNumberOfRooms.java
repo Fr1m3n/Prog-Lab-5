@@ -26,8 +26,8 @@ public class FilterLessThanNumberOfRooms extends AbstractCommand {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Need numerical argument");
         }
-//        List<Flat> res = userInterface.toList().stream().filter(x -> x.getNumberOfRooms() < numOfRooms).collect(Collectors.toList());
-        List<Object> flats = ss.filterLessThanNumberOfRooms(numOfRooms);
-        System.out.println(flats);
+        List<Flat> flats = ss.filterLessThanNumberOfRooms(numOfRooms);
+        userInterface.writeln("Найдено " + flats.size() + " объектов, у которых комнат меньше чем " + numOfRooms);
+        flats.forEach(x -> userInterface.writeln(x.toString()));
     }
 }

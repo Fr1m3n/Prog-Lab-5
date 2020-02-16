@@ -14,7 +14,7 @@ public class Help extends AbstractCommand {
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         for (AbstractCommand command : CommandsManager.getInstance().getAllCommands()) {
-            System.out.println(command.getCommand() + ": " + command.getHelpText());
+            userInterface.writeln(command.getCommand() + ": " + command.getHelpText());
         }
     }
 }

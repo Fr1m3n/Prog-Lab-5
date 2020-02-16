@@ -8,6 +8,10 @@ import lombok.NonNull;
 
 import java.time.ZonedDateTime;
 
+
+/**
+ * Модель квартиры
+ */
 public class Flat implements Comparable {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -61,7 +65,6 @@ public class Flat implements Comparable {
     }
 
 
-
     public Flat() {
 
     }
@@ -70,7 +73,7 @@ public class Flat implements Comparable {
         return id;
     }
 
-    public void setId(@NonNull long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -106,7 +109,7 @@ public class Flat implements Comparable {
         return area;
     }
 
-    public void setArea(@NonNull long area) {
+    public void setArea(long area) {
         this.area = area;
     }
 
@@ -114,7 +117,7 @@ public class Flat implements Comparable {
         return numberOfRooms;
     }
 
-    public void setNumberOfRooms(@NonNull long numberOfRooms) {
+    public void setNumberOfRooms(long numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
     }
 
@@ -130,7 +133,7 @@ public class Flat implements Comparable {
         return new1;
     }
 
-    public void setNew1(@NonNull boolean new1) {
+    public void setNew1(boolean new1) {
         this.new1 = new1;
     }
 
@@ -176,7 +179,7 @@ public class Flat implements Comparable {
             throw new ClassCastException();
         }
         Flat fo = (Flat) o;
-        return (int)(this.getArea() - fo.getArea());
+        return (int) (this.getArea() - fo.getArea());
     }
 
 }

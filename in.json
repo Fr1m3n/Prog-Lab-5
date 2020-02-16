@@ -1,22 +1,36 @@
-
 [
-    {
-      "id": 1,
+  {
+    "id": 1,
+    "name": "1",
+    "coordinates": {
+      "x": 3,
+      "y": 1
+    },
+    "creationDate": "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
+    "area": 1,
+    "numberOfRooms": 17,
+    "livingSpace": 1,
+    "view": "YARD",
+    "house": {
       "name": "1",
-      "coordinates": {
-        "x": 3,
-        "y": 1
-      },
-      "creationDate": "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
-      "area": 1,
-      "numberOfRooms": 17,
-      "livingSpace": 1,
-      "view": "YARD",
-      "house": {
-        "name": "1",
-        "year": 1,
-        "numberOfFloors": 1
-      },
-      "new1": true
-    }
+      "year": 1,
+      "numberOfFloors": 2
+    },
+    "new1": null
+  },
+  {
+    "id": 2,
+    "name": "2",
+    "coordinates": {
+      "x": 2,
+      "y": 1
+    },
+    "creationDate": "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
+    "area": 1,
+    "numberOfRooms": 17,
+    "livingSpace": 1,
+    "view": null,
+    "house": null,
+    "new1": true
+  }
 ]

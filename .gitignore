@@ -3,7 +3,7 @@
 
 .idea/
 Prog-Lab-5.iml
-out/
+out/production
 
 # Log file
 *.log

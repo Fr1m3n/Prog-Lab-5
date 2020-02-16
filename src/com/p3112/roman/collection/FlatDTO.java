@@ -12,6 +12,10 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Data transfer object для квартиры.
+ */
 @JsonAutoDetect
 public class FlatDTO {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -105,7 +109,7 @@ public class FlatDTO {
         return new1;
     }
 
-    public void setNew1(boolean new1) {
+    public void setNew1(@NonNull boolean new1) {
         this.new1 = new1;
     }
 

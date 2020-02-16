@@ -24,6 +24,10 @@ public class InsertAt extends AbstractCommand {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Need numerical argument");
         }
+        if (pos > ss.size()) {
+            userInterface.writeln("Позиция больше чем размер коллекции.");
+            return;
+        }
         Flat flat = userInterface.readFlat();
         ss.insertAt(pos, flat);
     }

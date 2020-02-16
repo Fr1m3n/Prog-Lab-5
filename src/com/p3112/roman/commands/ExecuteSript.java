@@ -26,12 +26,15 @@ public class ExecuteSript extends AbstractCommand {
         }
         String script_path = args[0];
         Path pathToScript = Paths.get(script_path);
+        userInterface.writeln("Начинаем выполнять скрипт " + pathToScript.getFileName());
+        long startTime = System.currentTimeMillis();
         try {
             UserInterface fileInterface = new UserInterface(new FileReader(pathToScript.toFile()), new OutputStreamWriter(System.out), false);
             while (fileInterface.hasNextLine()) {
                 String line = fileInterface.read();
                 CommandsManager.getInstance().executeCommand(fileInterface, ss, line);
             }
+            userInterface.writeln("Скрипт выполнен успешно. Его выполнение заняло " + (System.currentTimeMillis() - startTime));
         } catch (FileNotFoundException e) {
             log.error("File is not exist");
         }

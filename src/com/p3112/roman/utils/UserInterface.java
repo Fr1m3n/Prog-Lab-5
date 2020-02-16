@@ -7,6 +7,7 @@ import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.House;
 import com.p3112.roman.collection.View;
 import com.p3112.roman.exceptions.InvalidInputException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -16,6 +17,7 @@ import java.util.Scanner;
 /**
  * Класс, отвечающий за обмен информацией с пользователем.
  */
+@Slf4j
 public class UserInterface {
     private Reader reader;
     private Writer writer;
@@ -24,8 +26,9 @@ public class UserInterface {
 
     /**
      * Конструктор, который создаёт интерфейс и определяет куда писать и откуда считывать.
-     *  @param reader Откуда считывать
-     * @param writer Куда писать
+     *
+     * @param reader      Откуда считывать
+     * @param writer      Куда писать
      * @param needMessage
      */
     public UserInterface(Reader reader, Writer writer, boolean needMessage) {
@@ -45,37 +48,47 @@ public class UserInterface {
     /**
      * Метод, запрашивающий ввод из стандартного потока ввода. Перед вводом выводит сообщение в стандартный поток вывода.
      *
-     * @param message     Сообщение для пользователя, будет выведено перед вводом
-     * @param nullable    Флаг. True - если мы допускаем пустой ввод от пользователя. False - если нам надо добиться от него не пустого ввода.
+     * @param message  Сообщение для пользователя, будет выведено перед вводом
+     * @param nullable Флаг. True - если мы допускаем пустой ввод от пользователя. False - если нам надо добиться от него не пустого ввода.
      * @return Введённую строку пользователя, или null если пользователь ввёл пустую строку и флаг nullable равен true
      */
     public String readWithMessage(String message, boolean nullable) {
-        String result;
+        String result = "";
         do {
+            if (result == null) {
+                writeln("Введите не пустую строку.");
+            }
             if (needMessage) {
-                try {
-                    write(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                writeln(message);
             }
             result = scanner.nextLine();
             result = result.isEmpty() ? null : result;
-        } while (!nullable && result == null);
+        } while (needMessage && !nullable && result == null);
+        if (!needMessage && result == null) {
+            throw new InvalidInputException("Получена пуста строка в поле, которое не может быть null.");
+        }
         return result;
     }
 
-    public void write(String message) throws IOException {
-        writer.write(message);
-        writer.flush();
+    public void writeln(String message) {
+        write(message + "\n");
+    }
+
+    public void write(String message) {
+        try {
+            writer.write(message);
+            writer.flush();
+        } catch (IOException e) {
+            log.error("Ошибка при выводе. {}", e.getMessage());
+        }
     }
 
     /**
      * Считывает из потока число и проверяет его на вхождение в промежуток [min; max]. При не корректном вводе, запрашивается повторный ввод.
      *
-     * @param message     сообщение, пользователю
-     * @param min         нижняя граница (-1, если неважна)
-     * @param max         верхняя граница (-1, если неважна)
+     * @param message сообщение, пользователю
+     * @param min     нижняя граница (-1, если неважна)
+     * @param max     верхняя граница (-1, если неважна)
      * @return Введённое пользователем число.
      */
     public String readWithMessage(String message, int min, int max) {
@@ -95,7 +108,7 @@ public class UserInterface {
      *
      * @return Экземпляр Flat, созданный на основе введённых пользователем данных.
      */
-    public Flat readFlat() throws ClassCastException {
+    public Flat readFlat() throws ClassCastException, InvalidInputException, NumberFormatException {
         String name = readWithMessage("Введите название квартиры: ", false);
         Coordinates coordinates = readCoordinates();
         long area = Long.parseLong(readWithMessage("Введите площадь квартиры (целое число): ", 0, -1));
@@ -108,18 +121,19 @@ public class UserInterface {
     }
 
 
-    public House readHouse() {
+    public House readHouse() throws NumberFormatException {
         String houseName = readWithMessage("Введите название дома: ", true);
         int houseYear = Integer.parseInt(readWithMessage("Год построки дома: ", 0, -1));
         Long houseFloors = Long.parseLong(readWithMessage("Количество этажей в доме: ", 0, -1));
         return new House(houseName, houseYear, houseFloors);
     }
 
-    public Coordinates readCoordinates() {
+    public Coordinates readCoordinates() throws NumberFormatException{
         Float x = Float.parseFloat(readWithMessage("Введите расположение квартиры по X (вещественное число): ", false));
         Long y = Long.valueOf(readWithMessage("Теперь расположение по Y (целое число): ", false));
         return new Coordinates(x, y);
     }
+
 
     public static boolean parseBoolean(String s) {
         if ("да".equals(s.toLowerCase())) {
@@ -141,10 +155,6 @@ public class UserInterface {
      */
     private static boolean checkStringLength(double s, int min, int max) {
         return ((min < 0 || s >= min) && (max < 0 || s <= max));
-    }
-
-    public Scanner getScanner() {
-        return scanner;
     }
 
     public boolean hasNextLine() {

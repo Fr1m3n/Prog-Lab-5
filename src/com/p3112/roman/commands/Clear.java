@@ -3,9 +3,9 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.utils.UserInterface;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
-
+@Slf4j
 public class Clear extends AbstractCommand {
     public Clear() {
         command = "clear";
@@ -16,10 +16,7 @@ public class Clear extends AbstractCommand {
     public void execute(UserInterface userInterface, StorageService ss, String[] args) {
         int count = ss.size();
         ss.clear();
-        try {
-            userInterface.write("Коллекция успешно очищенна! Элементов удалено: " + count);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        userInterface.writeln("Коллекция успешно очищенна! Элементов удалено: " + count);
+        log.info("Коллекция очищенна.");
     }
 }

@@ -8,26 +8,29 @@ import com.p3112.roman.exceptions.InvalidInputException;
 @JsonAutoDetect
 @JsonRootName("view")
 public enum View implements Comparable<View> {
-    STREET("Улица"),
-    NORMAL("Обычный"),
-    YARD("Двор");
+    STREET("Улица", 3),
+    NORMAL("Обычный", 2),
+    YARD("Двор", 1);
 
     private String rus;
+    private int weight;
 
 
-    View(String rus) {
+    View(String rus, int weight) {
+        this.weight = weight;
         this.rus = rus;
     }
 
     public static View byOrdinal(int s) {
         for (View value : View.values()) {
-            if (value.ordinal() == s) {
+            if (value.getWeight() == s) {
                 return value;
             }
         }
         throw new InvalidInputException("Не найден вид, соответствующий строке: " + s);
     }
 
+    public int getWeight() { return weight; }
     public String getRus() {
         return rus;
     }

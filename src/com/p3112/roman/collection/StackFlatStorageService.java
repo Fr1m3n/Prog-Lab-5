@@ -23,9 +23,7 @@ public class StackFlatStorageService implements StorageService {
      * @param st коллекция, с которой будет работать сервис
      */
     public StackFlatStorageService(Storage<Flat> st) {
-        if (StackFlatStorageService.st == null) {
-            StackFlatStorageService.st = st;
-        }
+        StackFlatStorageService.st = st;
     }
 
     /**

@@ -25,9 +25,7 @@ public class Flat implements Comparable {
     private House house; //Поле может быть null
 
     public Flat(String name, Coordinates coordinates, long area, long numberOfRooms, Long livingSpace, boolean new1, View view, House house) {
-//        this.id = id;
         this.name = name;
-        assert !name.isEmpty();
         this.coordinates = coordinates;
         this.creationDate = ZonedDateTime.now();
         this.area = area;

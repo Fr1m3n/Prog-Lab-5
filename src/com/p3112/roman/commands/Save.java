@@ -9,11 +9,13 @@ import com.p3112.roman.utils.UserInterface;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class Save extends AbstractCommand {
-    private static final String PATH = "E:\\JavaProjects\\Prog-Lab-5\\out.json";
+    private static final String PATH = Paths.get("out.json").toAbsolutePath().toString();
     private JsonWriter jsonWriter = new JsonWriter();
 
     public Save() {

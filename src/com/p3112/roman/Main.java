@@ -13,6 +13,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedHashMap;
 
 
 /**
@@ -34,6 +35,7 @@ public class Main {
                 new OutputStreamWriter(System.out, StandardCharsets.UTF_8),
                 true);
         StorageService storageService = new StackFlatStorageService(storage);
+
         log.info("Инициализация коллекции и вспомогательных классов прошла успешно!");
         if (args.length > 0) {
             Path pathToInitFile = Paths.get(args[0]);
@@ -41,6 +43,7 @@ public class Main {
             try {
                 FlatDTO[] flats = jsonReader.readCollectionFromFile(pathToInitFile.toAbsolutePath().toString());
                 for (FlatDTO flatDTO : flats) {
+                    flatDTO.checkFields();
                     Flat flat = flatDTO.toFlat();
                     if (UserInterface.checkNumber(flat.getNumberOfRooms(), 0, 18)) {
                         storage.put(flat);
@@ -59,6 +62,9 @@ public class Main {
             } catch (ClassCastException e) {
                 log.error("Ошибка приведения типов. {}", e.getMessage());
                 cliInterface.writeln("Ошибка во время каста. Смотрите логи для более подробной информации об ошибке.");
+            } catch (InvalidInputException e) {
+                cliInterface.writeln("Ошибка во время проверки данных. Что-то во входном файле не так. Проверьте логи.");
+                log.error("Одно из полей не подходит под ограничения. {}", e.getMessage());
             } catch (Exception e) {
                 cliInterface.writeln("Меня написал дебил, который что-то не проверил... Там в логах должна быть инфа об ошибке.");
                 log.error("Неизвестная ошибка. {}", e.getMessage());
@@ -74,7 +80,7 @@ public class Main {
             if (cliInterface.hasNextLine()) {
                 String cmd = cliInterface.read();
                 try {
-                    CommandsManager.getInstance().executeCommand(cliInterface, storageService, cmd);
+                    CommandsManager.getInstance().executeCommand(cliInterface, storageService, cmd.trim());
                 } catch (NoSuchCommandException e) {
                     cliInterface.writeln("Неизвестная команда, используйте команду help, чтобы посмотреть список всех доступных команд.");
                 } catch (InvalidInputException e) {

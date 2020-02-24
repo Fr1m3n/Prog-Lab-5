@@ -43,7 +43,7 @@ public class House implements Comparable {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(@NonNull int year) {
         this.year = year;
     }
 

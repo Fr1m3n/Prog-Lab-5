@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.p3112.roman.exceptions.InvalidInputException;
+import com.p3112.roman.utils.UserInterface;
 import lombok.NonNull;
 
 import java.time.ZonedDateTime;
@@ -19,9 +21,7 @@ import java.util.List;
 @JsonAutoDetect
 public class FlatDTO {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    @NonNull
     private String name; //Поле не может быть null, Строка не может быть пустой
-    @NonNull
     @JsonDeserialize(as = Coordinates.class)
     private Coordinates coordinates; //Поле не может быть null
     private java.time.ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
@@ -40,7 +40,8 @@ public class FlatDTO {
         id = flat.getId();
         name = flat.getName();
         coordinates = flat.getCoordinates();
-        creationDate = ZonedDateTime.parse(flat.getCreationDate());
+        String creationDateString = flat.getCreationDate();
+        creationDate = (creationDateString == null) ? ZonedDateTime.now() : ZonedDateTime.parse(creationDateString);
         area = flat.getArea();
         numberOfRooms = flat.getNumberOfRooms();
         livingSpace = flat.getLivingSpace();
@@ -61,7 +62,7 @@ public class FlatDTO {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
@@ -69,7 +70,7 @@ public class FlatDTO {
         return coordinates;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
+    public void setCoordinates(@NonNull Coordinates coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -77,7 +78,7 @@ public class FlatDTO {
         return creationDate.toString();
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(@NonNull String creationDate) {
         this.creationDate = ZonedDateTime.parse(creationDate);
     }
 
@@ -101,7 +102,7 @@ public class FlatDTO {
         return livingSpace;
     }
 
-    public void setLivingSpace(Long livingSpace) {
+    public void setLivingSpace(@NonNull Long livingSpace) {
         this.livingSpace = livingSpace;
     }
 
@@ -143,5 +144,23 @@ public class FlatDTO {
                 house
         );
         return flat;
+    }
+
+    public void checkFields() {
+        if (name.isEmpty()) {
+            throw new InvalidInputException("Name пустая.");
+        }
+
+        if (!UserInterface.checkNumber(area, 0, -1) ||
+        !UserInterface.checkNumber(numberOfRooms, 0, 18) ||
+        !UserInterface.checkNumber(livingSpace, 0, -1)) {
+            throw new InvalidInputException("Одно из чисел во входном json не подходит под ограничения. (Flat)");
+        }
+        if (house != null) {
+            if (!UserInterface.checkNumber(house.getNumberOfFloors(), 0, -1) ||
+            !UserInterface.checkNumber(house.getYear(), 0, -1)) {
+                throw new InvalidInputException("Одно из чисел во входном json не подходит под ограничения. (House)");
+            }
+        }
     }
 }

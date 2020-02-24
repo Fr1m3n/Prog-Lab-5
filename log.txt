@@ -1,4 +1,6 @@
-01:44 [main] INFO com.p3112.roman.Main - CLI запущен.
-01:44 [main] INFO com.p3112.roman.Main - Инициализация коллекции и вспомогательных классов прошла успешно!
-01:44 [main] INFO com.p3112.roman.commands.CommandsManager - Выполняется коммадна show
-01:44 [main] INFO com.p3112.roman.commands.CommandsManager - Комманда show успешно выполнена.
+10:32 [main] INFO com.p3112.roman.Main - CLI запущен.
+10:32 [main] INFO com.p3112.roman.Main - Инициализация коллекции и вспомогательных классов прошла успешно!
+10:32 [main] INFO com.p3112.roman.commands.CommandsManager - Выполняется коммадна 
+10:32 [main] INFO com.p3112.roman.commands.CommandsManager - Выполняется коммадна help
+10:32 [main] INFO com.p3112.roman.commands.CommandsManager - Комманда help успешно выполнена.
+10:32 [main] INFO com.p3112.roman.commands.CommandsManager - Выполняется коммадна exit

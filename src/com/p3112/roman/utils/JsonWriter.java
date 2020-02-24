@@ -29,5 +29,6 @@ public class JsonWriter {
         File file = new File(pathToFile);
         FileOutputStream outputStream = new FileOutputStream(file);
         outputStream.write(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(storageDTO).getBytes());
+        outputStream.close();
     }
 }

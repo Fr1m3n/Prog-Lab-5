@@ -23,7 +23,7 @@ public class ExecuteScript extends AbstractCommand {
     @Override
     public void execute(UserInterface userInterface, StorageService ss, String[] args) throws IOException {
         if (args.length < 1) {
-            throw new InvalidInputException("Need argument");
+            throw new InvalidInputException("Команда требует аргумент.");
         }
         String scriptPath = args[0];
         Path pathToScript = Paths.get(scriptPath);

@@ -1,4 +1,1 @@
-01:44 [main] INFO com.p3112.roman.Main - CLI запущен.
-01:44 [main] INFO com.p3112.roman.Main - Инициализация коллекции и вспомогательных классов прошла успешно!
-01:44 [main] INFO com.p3112.roman.commands.CommandsManager - Выполняется коммадна show
-01:44 [main] INFO com.p3112.roman.commands.CommandsManager - Комманда show успешно выполнена.
+22:38 [main] INFO com.p3112.roman.server.Server - Сервер успешно запущен. Слушается порт: 5858

@@ -199,7 +199,7 @@ public class StackFlatStorageService implements StorageService {
             st.toList().stream().map(FlatDTO::new).collect(Collectors.toList()).toArray(flats);
             jsonWriter.writeCollectionToFile(flats, pathToFile);
         } catch (IOException e) {
-            log.error("Ошибка во время сохранения коллекции в файл.");
+            log.error("Ошибка во время сохранения коллекции в файл. {}", e.getMessage());
             throw e;
         }
     }

@@ -112,7 +112,10 @@ public class UserInterface {
      * @return Экземпляр Flat, созданный на основе введённых пользователем данных.
      */
     public Flat readFlat() throws ClassCastException, InvalidInputException, NumberFormatException {
-        String name = readWithMessage("Введите название квартиры: ", false);
+        String name;
+        do {
+            name = readWithMessage("Введите название квартиры: ", false);
+        } while (name.isEmpty());
         Coordinates coordinates = readCoordinates();
         long area = Long.parseLong(readWithMessage("Введите площадь квартиры (целое число, больше 0): ", 0, -1));
         long numberOfRooms = Long.parseLong(readWithMessage("Введите кол-во комнат в квартире (целое число от 0 до 18): ", 0, 18));
@@ -191,10 +194,10 @@ public class UserInterface {
      * @param s   Число для проверки
      * @param min Минимальное значение
      * @param max Максимальное значение
-     * @return true - если значение числа лежит в отрезке [min, max], иначе false
+     * @return true - если значение числа лежит в отрезке (min, max], иначе false
      */
     public static boolean checkNumber(double s, int min, int max) {
-        return ((min < 0 || s >= min) && (max < 0 || s <= max));
+        return ((min < 0 || Math.abs(s - min) < 10e-9 || s > min) && (max < 0 || s <= max));
     }
 
 

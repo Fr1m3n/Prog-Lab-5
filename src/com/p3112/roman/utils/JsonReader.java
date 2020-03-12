@@ -21,7 +21,9 @@ public class JsonReader {
      */
     public FlatDTO[] readCollectionFromFile(String pathToFile) throws IOException {
         try {
-            FlatDTO[] flats = objectMapper.readValue(new FileReader(pathToFile), FlatDTO[].class);
+            FileReader fileReader = new FileReader(pathToFile);
+            FlatDTO[] flats = objectMapper.readValue(fileReader, FlatDTO[].class);
+            fileReader.close();
             return flats;
         } catch (ClassCastException e) {
             System.out.println("Проблема при касте какая-то хз, сам глянь чё там...");

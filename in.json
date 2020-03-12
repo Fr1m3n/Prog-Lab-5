@@ -6,9 +6,9 @@
       "x": 3,
       "y": 1
     },
-    "creationDate": "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
-    "area": 1,
+    "area": 2,
     "numberOfRooms": 17,
+    "creationDate": "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
     "livingSpace": 1,
     "view": "YARD",
     "house": {
@@ -28,7 +28,7 @@
     "creationDate": "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
     "area": 1,
     "numberOfRooms": 17,
-    "livingSpace": 1,
+    "livingSpace": 4,
     "view": null,
     "house": null,
     "new1": true

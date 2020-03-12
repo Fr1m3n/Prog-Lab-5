@@ -177,7 +177,11 @@ public class Flat implements Comparable {
             throw new ClassCastException();
         }
         Flat fo = (Flat) o;
-        return (int) (this.getArea() - fo.getArea());
+        if (this.getArea() == fo.getArea()) {
+            return 0;
+        } else {
+            return this.getArea() < fo.getArea() ? -1 : 1;
+        }
     }
 
 }

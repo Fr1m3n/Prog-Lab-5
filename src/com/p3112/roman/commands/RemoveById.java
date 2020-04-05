@@ -2,13 +2,9 @@ package com.p3112.roman.commands;
 // Writed by Roman Devyatilov (Fr1m3n) in 9:56 07.02.2020
 
 
-import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
-import com.p3112.roman.utils.UserInterface;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.p3112.roman.utils.UserInterfaceImpl;
 
 public class RemoveById extends AbstractCommand {
     public RemoveById() {
@@ -17,7 +13,7 @@ public class RemoveById extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) {
         if (args.length < 1) {
             throw new InvalidInputException("Need argument");
         }

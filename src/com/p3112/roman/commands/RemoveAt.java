@@ -4,7 +4,7 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.UserInterfaceImpl;
 
 public class RemoveAt extends AbstractCommand {
     public RemoveAt() {
@@ -13,7 +13,7 @@ public class RemoveAt extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) {
         if (args.length < 1) {
             throw new InvalidInputException("Need argument");
         }

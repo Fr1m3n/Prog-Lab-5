@@ -3,7 +3,7 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.NoSuchCommandException;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.UserInterfaceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -80,13 +80,14 @@ public class CommandsManager {
      * @param s строка, введённая юзером
      * @throws IOException Пробрасывается от команды, в случае если команда работает с I/O и произошла ошибка.
      */
-    public void executeCommand(UserInterface userInterface, StorageService storageService, String s) throws IOException {
+    public void executeCommand(UserInterfaceImpl userInterface, StorageService storageService, String s) throws IOException {
         String[] parsedCommand = parseCommand(s);
-        log.info("Выполняется коммадна {}", parsedCommand[0]);
+        String commandName = parsedCommand[0];
+        log.info("Выполняется коммадна {}", commandName);
         AbstractCommand command = getCommand(parsedCommand[0]);
         String[] args = Arrays.copyOfRange(parsedCommand, 1, parsedCommand.length);
         command.execute(userInterface, storageService, args);
-        log.info("Комманда {} успешно выполнена.", parsedCommand[0]);
+        log.info("Комманда {} успешно выполнена.", commandName);
     }
 
     /**

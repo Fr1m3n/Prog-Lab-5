@@ -3,7 +3,10 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.House;
 import com.p3112.roman.collection.StorageService;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.CollectionUtils;
+import com.p3112.roman.utils.UserInterfaceImpl;
+
+import java.io.IOException;
 
 public class CountGreaterThanHouse extends AbstractCommand {
     public CountGreaterThanHouse() {
@@ -12,8 +15,8 @@ public class CountGreaterThanHouse extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
-        House house = userInterface.readHouse();
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) throws IOException {
+        House house = CollectionUtils.readHouse(userInterface);
         userInterface.writeln("В коллекции " + ss.countGreaterThanHouse(house) + " элементов, у которых дом круче данного.");
     }
 }

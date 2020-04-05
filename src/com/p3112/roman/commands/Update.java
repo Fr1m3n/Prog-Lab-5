@@ -5,7 +5,10 @@ package com.p3112.roman.commands;
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.CollectionUtils;
+import com.p3112.roman.utils.UserInterfaceImpl;
+
+import java.io.IOException;
 
 public class Update extends AbstractCommand {
     public Update() {
@@ -15,7 +18,7 @@ public class Update extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) throws IOException {
         if (args.length < 1) {
             throw new InvalidInputException("Введено " + args.length + " аргументов, ожидалось " + argumentsCount);
         }
@@ -26,7 +29,7 @@ public class Update extends AbstractCommand {
             e.printStackTrace();
             return;
         }
-        Flat flat = userInterface.readFlat();
+        Flat flat = CollectionUtils.readFlat(userInterface);
         ss.update(id, flat);
 //        Flat flat = InputUtils.readFlatFromStream(System.in);
 //        long id = flat.getId();

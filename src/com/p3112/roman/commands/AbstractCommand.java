@@ -3,7 +3,7 @@ package com.p3112.roman.commands;
 
 
 import com.p3112.roman.collection.StorageService;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.UserInterfaceImpl;
 
 import java.io.IOException;
 
@@ -14,6 +14,7 @@ public abstract class AbstractCommand {
     protected String command;
     protected String helpText;
     protected int argumentsCount = 0;
+    protected boolean localCommand = false;
 
     /**
      * Метод, который описывает логику команды.
@@ -22,7 +23,7 @@ public abstract class AbstractCommand {
      * @param args аргументы команды
      * @throws IOException В случае, если команда работала с I/O и произошла ошибка.
      */
-    public abstract void execute(UserInterface userInterface, StorageService ss, String[] args) throws IOException;
+    public abstract void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) throws IOException;
 
     public String getCommand() {
         return command;

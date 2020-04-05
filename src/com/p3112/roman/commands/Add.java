@@ -3,8 +3,11 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.StorageService;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.CollectionUtils;
+import com.p3112.roman.utils.UserInterfaceImpl;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 
 @Slf4j
 public class Add extends AbstractCommand {
@@ -15,9 +18,10 @@ public class Add extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
-        Flat flat = userInterface.readFlat();
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) throws IOException {
+        Flat flat = CollectionUtils.readFlat(userInterface);
         ss.add(flat);
+        userInterface.writeln("Квартира успешно добавлена!");
         log.info("Квартира успешно добавлена. Ей присвоен id: {}", flat.getId());
 
     }

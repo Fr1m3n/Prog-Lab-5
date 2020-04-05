@@ -5,7 +5,10 @@ package com.p3112.roman.commands;
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.CollectionUtils;
+import com.p3112.roman.utils.UserInterfaceImpl;
+
+import java.io.IOException;
 
 public class InsertAt extends AbstractCommand {
     public InsertAt() {
@@ -14,7 +17,7 @@ public class InsertAt extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) throws IOException {
         if (args.length < 1) {
             throw new InvalidInputException("Need argument");
         }
@@ -28,7 +31,7 @@ public class InsertAt extends AbstractCommand {
             userInterface.writeln("Позиция больше чем размер коллекции.");
             return;
         }
-        Flat flat = userInterface.readFlat();
+        Flat flat = CollectionUtils.readFlat(userInterface);
         ss.insertAt(pos, flat);
     }
 }

@@ -5,15 +5,15 @@ import com.p3112.roman.collection.*;
 import com.p3112.roman.commands.CommandsManager;
 import com.p3112.roman.exceptions.InvalidInputException;
 import com.p3112.roman.exceptions.NoSuchCommandException;
+import com.p3112.roman.utils.CollectionUtils;
 import com.p3112.roman.utils.JsonReader;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.UserInterfaceCLIImpl;
+import com.p3112.roman.utils.UserInterfaceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.LinkedHashMap;
 
 
 /**
@@ -30,9 +30,9 @@ public class Main {
         log.info("CLI запущен.");
         Storage<Flat> storage = new StackFlatStorageImpl();
         JsonReader jsonReader = new JsonReader();
-        UserInterface cliInterface = new UserInterface(
-                new InputStreamReader(System.in, StandardCharsets.UTF_8),
-                new OutputStreamWriter(System.out, StandardCharsets.UTF_8),
+        UserInterfaceImpl cliInterface = new UserInterfaceCLIImpl(
+                System.in,
+                System.out,
                 true);
         StorageService storageService = new StackFlatStorageService(storage);
 
@@ -45,7 +45,7 @@ public class Main {
                 for (FlatDTO flatDTO : flats) {
                     flatDTO.checkFields();
                     Flat flat = flatDTO.toFlat();
-                    if (UserInterface.checkNumber(flat.getNumberOfRooms(), 0, 18)) {
+                    if (CollectionUtils.checkNumber(flat.getNumberOfRooms(), 0, 18)) {
                         storage.put(flat);
                     } else {
                         log.error("Запись номер с полем name равным: {} - не прошла проверку на границы числа.", flat.getId());
@@ -78,7 +78,12 @@ public class Main {
         }
         while (true) {
             if (cliInterface.hasNextLine()) {
-                String cmd = cliInterface.read();
+                String cmd = "NULL_COMMAND";
+                try {
+                    cmd = cliInterface.read();
+                } catch (IOException e) {
+                    log.error("Ошибка ввода/вывода.");
+                }
                 try {
                     CommandsManager.getInstance().executeCommand(cliInterface, storageService, cmd.trim());
                 } catch (NoSuchCommandException e) {

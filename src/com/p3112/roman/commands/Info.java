@@ -3,7 +3,7 @@ package com.p3112.roman.commands;
 
 
 import com.p3112.roman.collection.StorageService;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.UserInterfaceImpl;
 
 public class Info extends AbstractCommand {
     public Info() {
@@ -12,7 +12,7 @@ public class Info extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) {
         userInterface.writeln(ss.info());
     }
 }

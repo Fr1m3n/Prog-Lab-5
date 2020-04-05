@@ -3,13 +3,11 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.StorageService;
 import com.p3112.roman.exceptions.InvalidInputException;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.UserInterfaceCLIImpl;
+import com.p3112.roman.utils.UserInterfaceImpl;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -21,7 +19,7 @@ public class ExecuteScript extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) throws IOException {
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) throws IOException {
         if (args.length < 1) {
             throw new InvalidInputException("Команда требует аргумент.");
         }
@@ -30,7 +28,7 @@ public class ExecuteScript extends AbstractCommand {
         userInterface.writeln("Начинаем выполнять скрипт " + pathToScript.getFileName());
         long startTime = System.currentTimeMillis();
         try {
-            UserInterface fileInterface = new UserInterface(new FileReader(pathToScript.toFile()), new OutputStreamWriter(System.out), false);
+            UserInterfaceImpl fileInterface = new UserInterfaceCLIImpl(new FileInputStream(pathToScript.toFile()), System.out, false);
             while (fileInterface.hasNextLine()) {
                 String line = fileInterface.read();
                 CommandsManager.getInstance().executeCommand(fileInterface, ss, line);

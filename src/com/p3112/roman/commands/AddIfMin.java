@@ -3,8 +3,11 @@ package com.p3112.roman.commands;
 
 import com.p3112.roman.collection.Flat;
 import com.p3112.roman.collection.StorageService;
-import com.p3112.roman.utils.UserInterface;
+import com.p3112.roman.utils.CollectionUtils;
+import com.p3112.roman.utils.UserInterfaceImpl;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 
 @Slf4j
 public class AddIfMin extends AbstractCommand {
@@ -14,8 +17,8 @@ public class AddIfMin extends AbstractCommand {
     }
 
     @Override
-    public void execute(UserInterface userInterface, StorageService ss, String[] args) {
-        Flat flat = userInterface.readFlat();
+    public void execute(UserInterfaceImpl userInterface, StorageService ss, String[] args) throws IOException {
+        Flat flat = CollectionUtils.readFlat(userInterface);
         boolean success = ss.addIfMin(flat);
         if (success) {
             userInterface.writeln("Объект успешно добавлен в коллекцию.");

@@ -23,13 +23,10 @@ public class RemoveById extends AbstractCommand {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Need numerical argument");
         }
-        ss.removeById(id);
-//        List<Flat> flats = userInterface.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());
-//        if (flats.isEmpty()) {
-//            System.out.printf("Элемент с id равным %d не найден.", id);
-//            return;
-//        }
-//        flats.forEach(ss::remove);
-//        System.out.printf("Элемент с id равным %d успешно удалён!\n", id);
+        if (ss.removeById(id)) {
+            userInterface.writeln("Квартира с id " + id + " успешно удалена!");
+        } else {
+            userInterface.writeln("Квартира с id " + id + " не найдена.");
+        }
     }
 }

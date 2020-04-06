@@ -1,7 +1,7 @@
 package com.p3112.roman.collection;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -34,4 +34,6 @@ public interface StorageService {
     int size();
 
     void save(String path) throws IOException;
+
+    void load(Path path) throws IOException;
 }

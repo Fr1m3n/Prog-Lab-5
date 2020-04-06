@@ -17,17 +17,19 @@ public class RemoveAt extends AbstractCommand {
         if (args.length < 1) {
             throw new InvalidInputException("Need argument");
         }
+        StringBuilder sb = new StringBuilder();
         int pos;
         try {
             pos = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Need numerical argument");
         }
-        userInterface.writeln("Удаляем элемент на позиции " + pos);
+        sb.append("Удаляем элемент на позиции ").append(pos).append('\n');
         if (ss.removeAt(pos)) {
-            userInterface.writeln("Элемент успешно удалён");
+            sb.append("Элемент успешно удалён");
         } else {
-            userInterface.writeln("Элемента на данной позиции нет.");
+            sb.append("Элемента на данной позиции нет.");
         }
+        userInterface.writeln(sb.toString());
     }
 }

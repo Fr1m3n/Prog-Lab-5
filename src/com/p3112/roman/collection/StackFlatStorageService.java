@@ -2,10 +2,14 @@ package com.p3112.roman.collection;
 // Created by Roman Devyatilov (Fr1m3n) in 15:03 08.02.2020
 
 
+import com.p3112.roman.utils.CollectionUtils;
+import com.p3112.roman.utils.JsonReader;
 import com.p3112.roman.utils.JsonWriter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -202,5 +206,21 @@ public class StackFlatStorageService implements StorageService {
             log.error("Ошибка во время сохранения коллекции в файл. {}", e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public void load(Path path) throws IOException {
+        JsonReader jsonReader = new JsonReader();
+        FlatDTO[] flats = jsonReader.readCollectionFromFile(path.toAbsolutePath().toString());
+        for (FlatDTO flatDTO : flats) {
+            flatDTO.checkFields();
+            Flat flat = flatDTO.toFlat();
+            if (CollectionUtils.checkNumber(flat.getNumberOfRooms(), 0, 18)) {
+                st.put(flat);
+            } else {
+                log.error("Запись номер с полем name равным: {} - не прошла проверку на границы числа.", flat.getId());
+            }
+        }
+//        cliInterface.writeln("Успешно добавлено " + st.size() + " из " + flats.length + " записей.");
     }
 }

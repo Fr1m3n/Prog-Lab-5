@@ -26,7 +26,9 @@ public class FilterLessThanNumberOfRooms extends AbstractCommand {
             throw new InvalidInputException("Need numerical argument");
         }
         List<Flat> flats = ss.filterLessThanNumberOfRooms(numOfRooms);
-        userInterface.writeln("Найдено " + flats.size() + " объектов, у которых комнат меньше чем " + numOfRooms);
-        flats.forEach(x -> userInterface.writeln(x.toString()));
+        StringBuilder sb = new StringBuilder();
+        sb.append("Найдено ").append(flats.size()).append(" объектов, у которых комнат меньше чем ").append(numOfRooms).append('\n');
+        flats.forEach(x -> sb.append(x.toString()).append('\n'));
+        userInterface.writeln(sb.toString());
     }
 }

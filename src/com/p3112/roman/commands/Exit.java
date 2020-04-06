@@ -10,7 +10,7 @@ import java.io.IOException;
 public class Exit extends AbstractCommand {
     public Exit() {
         command = "exit";
-        helpText = "Выход из программы без сохранения.";
+        helpText = "Отключение от сервера.";
     }
 
     @Override

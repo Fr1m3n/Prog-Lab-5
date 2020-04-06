@@ -5,6 +5,9 @@ package com.p3112.roman.utils;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Попытка починить Invalid stream header.
+ */
 public class CustomByteInputStream extends InputStream {
 
     private byte[] buffer;

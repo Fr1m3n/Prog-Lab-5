@@ -9,6 +9,7 @@ import com.p3112.roman.collection.View;
 import com.p3112.roman.exceptions.InvalidInputException;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class CollectionUtils {
     private CollectionUtils() {}
@@ -113,6 +114,14 @@ public class CollectionUtils {
             sb.append(Integer.toHexString(b1)).append(' ');
         }
         return sb.toString();
+    }
+
+    public static byte[] concatByteArrays(byte[] a, byte[] b) {
+        byte[] c = Arrays.copyOf(a, a.length + b.length);
+        for (int i = 0; i < b.length; i++) {
+            c[a.length + i] = b[i];
+        }
+        return c;
     }
 
 }

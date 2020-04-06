@@ -31,6 +31,7 @@ public class Update extends AbstractCommand {
         }
         Flat flat = CollectionUtils.readFlat(userInterface);
         ss.update(id, flat);
+        userInterface.writeln("Квартира с id " + id + " успешно обновлена!");
 //        Flat flat = InputUtils.readFlatFromStream(System.in);
 //        long id = flat.getId();
 //        List<Flat> flats = userInterface.toList().stream().filter(x -> x.getId() == id).collect(Collectors.toList());

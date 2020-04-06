@@ -1,37 +1,51 @@
 [ {
-  "id" : 0,
-  "name" : "1",
-  "coordinates" : {
-    "x" : 1.0,
-    "y" : 1
-  },
-  "creationDate" : "2020-04-04T16:17:38.218276600+03:00[Europe/Moscow]",
-  "area" : 1,
-  "numberOfRooms" : 1,
-  "livingSpace" : 1,
-  "new1" : false,
-  "view" : "NORMAL",
-  "house" : {
-    "name" : "2",
-    "year" : 2,
-    "numberOfFloors" : 2
-  }
-}, {
   "id" : 1,
   "name" : "1",
   "coordinates" : {
-    "x" : 1.0,
+    "x" : 3.0,
     "y" : 1
   },
-  "creationDate" : "2020-04-04T16:18:51.377527300+03:00[Europe/Moscow]",
-  "area" : 1,
-  "numberOfRooms" : 1,
+  "creationDate" : "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
+  "area" : 2,
+  "numberOfRooms" : 17,
   "livingSpace" : 1,
+  "new1" : false,
+  "view" : "YARD",
+  "house" : {
+    "name" : "1",
+    "year" : 1,
+    "numberOfFloors" : 2
+  }
+}, {
+  "id" : 2,
+  "name" : "2",
+  "coordinates" : {
+    "x" : 2.0,
+    "y" : 1
+  },
+  "creationDate" : "2020-02-12T20:40:54.014764600+03:00[Europe/Moscow]",
+  "area" : 1,
+  "numberOfRooms" : 17,
+  "livingSpace" : 4,
+  "new1" : true,
+  "view" : null,
+  "house" : null
+}, {
+  "id" : 0,
+  "name" : "home1",
+  "coordinates" : {
+    "x" : 3.0,
+    "y" : 12
+  },
+  "creationDate" : "2020-04-06T11:43:18.851637500+03:00[Europe/Moscow]",
+  "area" : 32,
+  "numberOfRooms" : 15,
+  "livingSpace" : 203,
   "new1" : true,
   "view" : "NORMAL",
   "house" : {
-    "name" : "2",
-    "year" : 1,
-    "numberOfFloors" : 1
+    "name" : null,
+    "year" : 2017,
+    "numberOfFloors" : 100
   }
 } ]
